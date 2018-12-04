@@ -1,3 +1,14 @@
+const fs = require('fs');
+const { extractFilecontent } = require("./src/library.js");
+
+const main = function(){
+  let fileName = process.argv[2];
+  let fileContent = fs.readFileSync(fileName,"UTF8");
+  console.log(extractFilecontent(fileContent));
+}
+
+main();
+
 /* 
   Usage:
   node ./head.js file1
