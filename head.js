@@ -1,14 +1,3 @@
-const fs = require('fs');
-const { extractFilecontent } = require("./src/library.js");
-
-const main = function(){
-  let fileName = process.argv[2];
-  let fileContent = fs.readFileSync(fileName,"UTF8");
-  console.log(extractFilecontent(fileContent));
-}
-
-main();
-
 /* 
   Usage:
   node ./head.js file1
@@ -25,5 +14,15 @@ main();
   node ./head.js -c 5 file1 file2
 */
 
+const fs = require('fs');
+const { extractFileContent } = require("./src/library.js");
+
+const main = function(){
+  let fileName = process.argv[2];
+  let fileContent = fs.readFileSync(fileName,"UTF8");
+  console.log(extractFileContent(fileContent));
+}
+
+main();
 
 
