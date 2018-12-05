@@ -15,11 +15,11 @@
 */
 
 const fs = require('fs');
-const { extractFileContent } = require("./src/library.js");
+const { extractFileContent , readFile } = require("./src/library.js");
 
 const main = function(){
-  let fileName = process.argv[2];
-  let fileContent = fs.readFileSync(fileName,"UTF8");
+  let file = process.argv[2];
+  let fileContent = readFile(fs,file);
   console.log(extractFileContent(fileContent));
 }
 

@@ -7,5 +7,10 @@ const extractLines = function(fileContent,noOfLines){
   return fileContent.split("\n").slice(0,noOfLines).join("\n");
 }
 
-module.exports = { extractFileContent , extractLines };
+const readFile = function(fs,file){
+  return fs.readFileSync(file,"UTF8");
+}
+
+
+module.exports = { extractFileContent , extractLines , readFile };
 
