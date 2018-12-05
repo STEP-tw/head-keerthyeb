@@ -1,5 +1,8 @@
 const head = function(fs,args){
   let { option , noOfLines , fileNames } = classifyInputs(args);
+  if( noOfLines < 0){
+    return "head: illegal line count -- "+noOfLines;
+  }
   let fileContents = fileNames.map(file => readFile(fs,file));
   let extractedContent = fileContents.map ( fileContent => extractFileContent(fileContent , noOfLines , option));
   if(fileNames.length == 1){
