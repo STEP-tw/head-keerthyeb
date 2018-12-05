@@ -1,6 +1,6 @@
 const head = function(fs,args){
   let { option , noOfLines , fileNames } = classifyInputs(args);
-  if( noOfLines < 0){
+  if( noOfLines < 0 || isNaN(noOfLines)){
     return "head: illegal line count -- "+noOfLines;
   }
   let fileContents = fileNames.map(file => readFile(fs,file));
