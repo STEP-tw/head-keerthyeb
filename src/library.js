@@ -1,12 +1,22 @@
 const head = function(fs,args){
   let { option , noOfLines , fileNames } = classifyInputs(args);
-  let fileContent = readFile(fs,fileNames[0]);
-  return extractFileContent(fileContent , noOfLines , option);
+  let fileContents = fileNames.map(file => readFile(fs,file));
+  let extractedContent = fileContents.map ( fileContent => extractFileContent(fileContent , noOfLines , option));
+  return zipFileNameWithFileContent(fileNames,extractedContent).join("\n");
 }
 
 const extractFileContent = function(fileContent, noOfLines = 10 ,option = "n"){
   const options = { "n" : extractLines , "c" : extractBytes }
   return  options[option](fileContent,noOfLines);
+}
+
+const zipFileNameWithFileContent = function(fileNames,fileContents){
+  let index = 0;
+  return fileNames.map( fileName => createHead(fileName)+fileContents[index++]);
+}
+
+const createHead = function(fileName){
+  return "==> "+fileName+" <==\n";
 }
 
 const extractLines = function(fileContent,noOfLines){
@@ -50,6 +60,8 @@ module.exports = { extractFileContent,
   readFile,
   extractBytes,
   classifyInputs,
-  head
+  head,
+  createHead,
+  zipFileNameWithFileContent
 };
 

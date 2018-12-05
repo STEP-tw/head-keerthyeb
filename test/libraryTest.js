@@ -2,6 +2,8 @@ const deepEqual = require("assert").deepEqual;
 const { extractFileContent,
   extractLines,
   extractBytes,
+  zipFileNameWithFileContent,
+  createHead,
   classifyInputs
   } = require("../src/library.js");
 
@@ -63,5 +65,32 @@ describe('classifyInputs',function(){
     deepEqual(classifyInputs(["-c5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
     deepEqual(classifyInputs(["-c","5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
    });
+});
+
+describe("Test for zipFileNameWithFileContent" , function(){
+  it("should return an empty array for 2 empty array " , function(){
+    deepEqual(zipFileNameWithFileContent([],[]),[]);
+  }); 
+
+  it("should return an empty array if first array is empty " , function(){
+    deepEqual(zipFileNameWithFileContent([],[1]),[]);
+    deepEqual(zipFileNameWithFileContent([],["cat"]),[]);
+  });
+  
+  it("should return an array which contain heading and contents if two arrays are non-empty " , function(){
+    deepEqual(zipFileNameWithFileContent(["animal"],["cat"]),[ '==> animal <==\ncat' ]);
+    deepEqual(zipFileNameWithFileContent(["animal","birds"],["cat","hen"]),[ '==> animal <==\ncat', '==> birds <==\nhen' ]);
+  });
+
+
+});
+
+
+describe("Test for createHead" , function(){
+  it("should return an heading like ==> heading <==\n when any text is given" , function(){
+    deepEqual(createHead(""),'==>  <==\n');
+    deepEqual(createHead("1"),'==> 1 <==\n');
+    deepEqual(createHead("keerthy"),'==> keerthy <==\n');
+  });
 });
 
