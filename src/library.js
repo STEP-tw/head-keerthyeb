@@ -2,6 +2,9 @@ const head = function(fs,args){
   let { option , noOfLines , fileNames } = classifyInputs(args);
   let fileContents = fileNames.map(file => readFile(fs,file));
   let extractedContent = fileContents.map ( fileContent => extractFileContent(fileContent , noOfLines , option));
+  if(fileNames.length == 1){
+    return extractedContent.join("");
+  }
   return zipFileNameWithFileContent(fileNames,extractedContent).join("\n");
 }
 
