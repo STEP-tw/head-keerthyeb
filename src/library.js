@@ -8,7 +8,10 @@ const head = function(fs,args){
   if(fileNames.length == 1){
     return extractedContent.join("");
   }
-  return zipFileNameWithFileContent(fileNames,extractedContent).join("\n");
+  let contents = zipFileNameWithFileContent(fileNames,extractedContent).join("\n");
+  let startIndex = 0;
+  let lastIndex = contents.lastIndexOf("\n");
+  return contents.substring(startIndex,lastIndex);
 }
 
 const extractFileContent = function(fileContent, noOfLines = 10 ,option = "n"){
@@ -18,7 +21,7 @@ const extractFileContent = function(fileContent, noOfLines = 10 ,option = "n"){
 
 const zipFileNameWithFileContent = function(fileNames,fileContents){
   let index = 0;
-  return fileNames.map( fileName => createHead(fileName)+fileContents[index++]);
+  return fileNames.map( fileName => createHead(fileName)+fileContents[index++]+ "\n");
 }
 
 const createHead = function(fileName){

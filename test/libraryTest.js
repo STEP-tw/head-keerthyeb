@@ -78,8 +78,8 @@ describe("Test for zipFileNameWithFileContent" , function(){
   });
   
   it("should return an array which contain heading and contents if two arrays are non-empty " , function(){
-    deepEqual(zipFileNameWithFileContent(["animal"],["cat"]),[ '==> animal <==\ncat' ]);
-    deepEqual(zipFileNameWithFileContent(["animal","birds"],["cat","hen"]),[ '==> animal <==\ncat', '==> birds <==\nhen' ]);
+    deepEqual(zipFileNameWithFileContent(["animal"],["cat"]),[ '==> animal <==\ncat\n' ]);
+    deepEqual(zipFileNameWithFileContent(["animal","birds"],["cat","hen"]),[ '==> animal <==\ncat\n', '==> birds <==\nhen\n' ]);
   });
 
 
