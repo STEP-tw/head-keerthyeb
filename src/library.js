@@ -1,10 +1,14 @@
-const extractFileContent = function(fileContent, noOfLines = 10 , option = "n"){
-  const options = { "n" : extractLines}
+const extractFileContent = function(fileContent, noOfLines = 10, option = 'n'){
+  const options = { "n" : extractLines , "c" : extractBytes }
   return  options[option](fileContent,noOfLines);
 }
 
 const extractLines = function(fileContent,noOfLines){
   return fileContent.split("\n").slice(0,noOfLines).join("\n");
+}
+
+const extractBytes = function(fileContent,noOfBytes){
+  return fileContent.split("").slice(0,noOfBytes).join("");
 }
 
 const readFile = function(fs,file){
@@ -38,6 +42,7 @@ const classifyInputs = function(args){
 module.exports = { extractFileContent,
   extractLines,
   readFile,
+  extractBytes,
   classifyInputs
 };
 

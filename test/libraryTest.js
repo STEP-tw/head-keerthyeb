@@ -1,11 +1,12 @@
 const deepEqual = require("assert").deepEqual;
 const { extractFileContent,
   extractLines,
+  extractBytes,
   classifyInputs
   } = require("../src/library.js");
 
 describe("Test for extractLines" , function(){
-  it("should return nothing for empty string" , function(){
+  it("should return nothing for an empty string" , function(){
     let empty = "";
     deepEqual(extractLines(empty,0),"");
     deepEqual(extractLines(empty,1),"");
@@ -18,6 +19,21 @@ describe("Test for extractLines" , function(){
     deepEqual(extractLines(names,4),"keerthy\namju\nmoothu");
   });
 });
+
+describe("Test for extractBytes" , function(){
+  it("should return nothing for an empty string" , function(){
+    let empty = "";
+    deepEqual(extractBytes(empty,0),"");
+    deepEqual(extractBytes(empty,1),"");
+  });
+
+  it("should return given number of bytes from a given text", function(){
+    let names = "keerthy\namju\nmoothu";
+    deepEqual(extractBytes(names,0),"");
+    deepEqual(extractBytes(names,2),"ke");
+  });
+});
+
 
 describe("Test for extractFileContent" , function(){
 
