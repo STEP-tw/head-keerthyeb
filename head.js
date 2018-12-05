@@ -15,12 +15,15 @@
 */
 
 const fs = require('fs');
-const { extractFileContent , readFile } = require("./src/library.js");
+const { extractFileContent,
+  readFile,
+  classifyInputs
+  }= require("./src/library.js");
 
 const main = function(){
-  let file = process.argv[2];
-  let fileContent = readFile(fs,file);
-  console.log(extractFileContent(fileContent));
+  let { option , noOfLines , fileNames } = classifyInputs(process.argv.slice(2));
+  let fileContent = readFile(fs,fileNames[0]);
+  console.log(extractFileContent(fileContent,noOfLines,option));
 }
 
 main();

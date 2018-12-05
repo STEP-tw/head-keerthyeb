@@ -1,5 +1,8 @@
 const deepEqual = require("assert").deepEqual;
-const { extractFileContent , extractLines } = require("../src/library.js");
+const { extractFileContent,
+  extractLines,
+  classifyInputs
+  } = require("../src/library.js");
 
 describe("Test for extractLines" , function(){
   it("should return nothing for empty string" , function(){
@@ -29,4 +32,20 @@ describe("Test for extractFileContent" , function(){
 
 });
 
+describe('classifyInputs',function(){
+    it('should return an object with  option,noOfLines and files ',function(){
+    deepEqual(classifyInputs(["file1"]),{ option: 'n', noOfLines: 10, fileNames: [ 'file1' ] })
+    deepEqual(classifyInputs(["-n5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
+    deepEqual(classifyInputs(["-n","5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
+    deepEqual(classifyInputs(["-5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
+    deepEqual(classifyInputs(["file1","file2"]),{ option: 'n', noOfLines: 10, fileNames: [ 'file1', 'file2' ] })
+    deepEqual(classifyInputs(["-n","5","file1","file2"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1','file2' ] })
+    deepEqual(classifyInputs(["-n5","file1","file2"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
+    deepEqual(classifyInputs(["-5","file1","file2"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
+    deepEqual(classifyInputs(["-c5","file1"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1' ] })
+    deepEqual(classifyInputs(["-c","5","file1"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1' ] })
+    deepEqual(classifyInputs(["-c5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
+    deepEqual(classifyInputs(["-c","5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
+   });
+})
 
