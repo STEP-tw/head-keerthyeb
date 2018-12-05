@@ -1,4 +1,10 @@
-const extractFileContent = function(fileContent, noOfLines = 10, option = 'n'){
+const head = function(fs,args){
+  let { option , noOfLines , fileNames } = classifyInputs(args);
+  let fileContent = readFile(fs,fileNames[0]);
+  return extractFileContent(fileContent , noOfLines , option);
+}
+
+const extractFileContent = function(fileContent, noOfLines = 10 ,option = "n"){
   const options = { "n" : extractLines , "c" : extractBytes }
   return  options[option](fileContent,noOfLines);
 }
@@ -43,6 +49,7 @@ module.exports = { extractFileContent,
   extractLines,
   readFile,
   extractBytes,
-  classifyInputs
+  classifyInputs,
+  head
 };
 
