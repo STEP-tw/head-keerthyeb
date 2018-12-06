@@ -165,5 +165,14 @@ describe("Test for head function" , function(){
     deepEqual(head(fs,["-n", 5, names]),names);
   });
 
+  it("should return first given number of characters " , function(){
+    let names = "keerthy\namju\nmoothu";
+    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    deepEqual(head(fs,["-c1", names]),"k");
+    deepEqual(head(fs,["-c", 1, names]),"k");
+    deepEqual(head(fs,["-c", 9, names]),"keerthy\na");
+    deepEqual(head(fs,["-c9", names]),"keerthy\na");
+  });
+
 });
 
