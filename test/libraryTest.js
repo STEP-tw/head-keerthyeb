@@ -50,20 +50,35 @@ describe("Test for extractFileContent" , function(){
 
 });
 
-describe('classifyInputs',function(){
-  it('should return an object with  option,noOfLines and files ',function(){
-    deepEqual(classifyInputs(["file1"]),{ option: 'n', noOfLines: 10, fileNames: [ 'file1' ] })
-    deepEqual(classifyInputs(["-n5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
-    deepEqual(classifyInputs(["-n","5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
-    deepEqual(classifyInputs(["-5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
-    deepEqual(classifyInputs(["file1","file2"]),{ option: 'n', noOfLines: 10, fileNames: [ 'file1', 'file2' ] })
-    deepEqual(classifyInputs(["-n","5","file1","file2"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1','file2' ] })
-    deepEqual(classifyInputs(["-n5","file1","file2"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
-    deepEqual(classifyInputs(["-5","file1","file2"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
-    deepEqual(classifyInputs(["-c5","file1"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1' ] })
-    deepEqual(classifyInputs(["-c","5","file1"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1' ] })
-    deepEqual(classifyInputs(["-c5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
-    deepEqual(classifyInputs(["-c","5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
+describe("classifyInputs", function() {
+
+  describe("passing only file names",function(){
+
+    it("should return an object with noOfLines as 10 and file name in fileNames array while passing file name as input",function(){
+      deepEqual(classifyInputs(["fileName.txt"]),{option : "n", noOfLines : 10 , fileNames : ["fileName.txt"]});
+    });
+
+    it("should return an object with noOfLines as 10 and file names in fileNames array while passing file names as input",function(){
+      deepEqual(classifyInputs(["fileName.txt","fileName2.txt"]),{option : "n", noOfLines : 10 , fileNames : ["fileName.txt","fileName2.txt"]})
+    })
+
+  });
+
+  it('should return an object with option n and noOfLines, fileName in fileNames array while passing the noOfLines & fileName as input', () => {
+    deepEqual(classifyInputs(['-5', 'file.txt']), { option: 'n', noOfLines: 5, fileNames: ['file.txt'] });
+    deepEqual(classifyInputs(['-10', 'file.txt', 'file2.txt', 'file3.txt']), { option: 'n', noOfLines: 10, fileNames: ['file.txt', 'file2.txt', 'file3.txt'] });
+  });
+
+  it('should return an object of option, noOfLines and fileNames when all three arguments are passed', function(){
+    deepEqual(classifyInputs(['-n1','file.txt']), { option: 'n', noOfLines: 1, fileNames: ['file.txt'] });
+    deepEqual(classifyInputs(['-n','10', 'file.txt']), { option: 'n', noOfLines: 10, fileNames: ['file.txt'] });
+    deepEqual(classifyInputs(['-n','-1', 'file.txt', 'file2.txt']), { option: 'n', noOfLines: -1, fileNames: ['file.txt', 'file2.txt']});
+  });
+
+  it('should return an object of option c and noOfLines of givrn balue for passing input',function(){
+    deepEqual(classifyInputs(['-c1','file.txt', 'file2.txt']), { option: 'c', noOfLines: 1, fileNames: ['file.txt', 'file2.txt'] });
+    deepEqual(classifyInputs(['-c','1','file.txt']), { option: 'c', noOfLines: 1, fileNames: ['file.txt'] });
+    deepEqual(classifyInputs(['-c','1','file.txt', 'file2.txt']), { option: 'c', noOfLines: 1, fileNames: ['file.txt', 'file2.txt'] });
   });
 });
 
@@ -125,3 +140,4 @@ describe("Test for handleException" , function(){
   });
 
 });
+
