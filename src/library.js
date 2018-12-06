@@ -56,9 +56,10 @@ const handleException = function( noOfLines , option , fileNames, fs){
   if( noOfLines <= 0 || isNaN(noOfLines)){
     return illegalCount[option];
   }
-  if(fileNames.length == 1 && !(isFileExist(fs,fileNames[0]))){
+  if(fileNames.length == 1 && !(fs.existsSync(fileNames[0]))){
     return "head: "+fileNames[0]+": No such file or directory";
   }
+  return "";
 }
 
 const readFile = function(fs,file){
@@ -99,6 +100,7 @@ module.exports = { extractFileContent,
   readFile,
   extractBytes,
   classifyInputs,
+  handleException,
   head,
   createHead,
   zipFileNameWithFileContent

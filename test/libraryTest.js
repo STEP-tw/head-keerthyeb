@@ -2,6 +2,7 @@ const deepEqual = require("assert").deepEqual;
 const { extractFileContent,
   extractLines,
   extractBytes,
+  handleException,
   zipFileNameWithFileContent,
   createHead,
   classifyInputs
@@ -91,3 +92,36 @@ describe("Test for createHead" , function(){
   });
 });
 
+describe("Test for handleException" , function(){
+  it("should return empty if all arguments are valid " , function(){
+    let fs = { existsSync : function(file){ return true }};
+    deepEqual(handleException(2,"n",["file1","file2"],fs),"");
+    deepEqual(handleException(2,"c",["file"],fs),"");
+  }); 
+
+  it("should return illegal option message for illegal option " , function(){
+    let fs = { existsSync : function(file){ return true }};
+    let illegalOption = "head: illegal option -- ";
+    let usage = "usage: head [-n lines | -c bytes] [file ...]";
+    deepEqual(handleException(2,"-p",["file1","file2"],fs), illegalOption + "-p\n" + usage );
+  });
+
+  it("should return illegal byte count message for illegal count and option 'c' " , function(){
+    let fs = { existsSync : function(file){ return true }};
+    let illegalCountMsg = "head: illegal byte count -- " 
+    deepEqual(handleException(-2,"c",["file1","file2"],fs), illegalCountMsg + "-2");
+  });
+
+  it("should return illegal line count message for illegal count and option 'n' " , function(){
+    let fs = { existsSync : function(file){ return true }};
+    let illegalCountMsg = "head: illegal line count -- "
+    deepEqual(handleException(-2,"n",["file1","file2"],fs), illegalCountMsg + "-2");
+  });
+
+  it("should return error msg if the file not exist " , function(){
+    let fs = { existsSync : function(file){ return false }};
+    let error =  "head: file1: No such file or directory";
+    deepEqual(handleException(2,"n",["file1"],fs), error);
+  });
+
+});
