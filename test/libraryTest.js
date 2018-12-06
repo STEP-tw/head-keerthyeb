@@ -174,5 +174,35 @@ describe("Test for head function" , function(){
     deepEqual(head(fs,["-c9", names]),"keerthy\na");
   });
 
-});
+  it("should return first 10 lines of the 2 strings " , function(){
+    let names = "keerthy\namju\nmoothu\n";
+    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    deepEqual(head(fs,["names","names"]),"==> names <==\n"+ names + "\n\n==> names <==\n"+names);
+  });
 
+  it("should return first given number of lines of the 2 strings " , function(){
+    let names = "keerthy\namju\nmoothu\n";
+    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    deepEqual(head(fs,["-n",5,"names","names"]),"==> names <==\n"+ names + "\n\n==> names <==\n"+names);
+    deepEqual(head(fs,["-n5","names","names"]),"==> names <==\n"+ names + "\n\n==> names <==\n"+names);
+    deepEqual(head(fs,["-5","names","names"]),"==> names <==\n"+ names + "\n\n==> names <==\n"+names);
+  });
+
+   it("should return first given number of characters of the 2 strings " , function(){
+    let names = "keerthy\namju\nmoothu\n";
+    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    deepEqual(head(fs,["-c",5,"names","names"]),"==> names <==\nkeert" + "\n\n==> names <==\nkeert");
+    deepEqual(head(fs,["-c5","names","names"]),"==> names <==\nkeert" + "\n\n==> names <==\nkeert");
+  });
+
+  it("should return error message if file is not exist " , function(){
+    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return false }};
+    deepEqual(head(fs,["names"]),"head: names: No such file or directory");
+    deepEqual(head(fs,["-n5","names"]),"head: names: No such file or directory");
+    deepEqual(head(fs,["-5","names"]),"head: names: No such file or directory");
+    deepEqual(head(fs,["-n",5,"names"]),"head: names: No such file or directory");
+    deepEqual(head(fs,["-c5","names"]),"head: names: No such file or directory");
+    deepEqual(head(fs,["-c",5,"names"]),"head: names: No such file or directory");
+  });
+
+});
