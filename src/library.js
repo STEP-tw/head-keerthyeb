@@ -48,7 +48,7 @@ const handleException = function( noOfLines , option , fileNames, fs){
   let illegalOption = "head: illegal option -- "+option;
   let usage = "usage: head [-n lines | -c bytes] [file ...]";
   let illegalCount = { "n" : "head: illegal line count -- " + noOfLines,
-    "c" : "head: illegal byte count -- " + noOfLines };
+                       "c" : "head: illegal byte count -- " + noOfLines };
 
   if( option != "n" && option != "c"){
     return illegalOption + "\n" + usage;
