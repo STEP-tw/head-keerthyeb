@@ -69,17 +69,17 @@ describe('classifyInputs',function(){
 
 describe("Test for zipFileNameWithFileContent" , function(){
   it("should return an empty array for 2 empty array " , function(){
-    deepEqual(zipFileNameWithFileContent([],[]),[]);
+    deepEqual(zipFileNameWithFileContent([],[],[]),[]);
   }); 
 
   it("should return an empty array if first array is empty " , function(){
-    deepEqual(zipFileNameWithFileContent([],[1]),[]);
-    deepEqual(zipFileNameWithFileContent([],["cat"]),[]);
+    deepEqual(zipFileNameWithFileContent([],[1],[]),[]);
+    deepEqual(zipFileNameWithFileContent([],["cat"],[]),[]);
   });
   
   it("should return an array which contain heading and contents if two arrays are non-empty " , function(){
-    deepEqual(zipFileNameWithFileContent(["animal"],["cat"]),[ '==> animal <==\ncat\n' ]);
-    deepEqual(zipFileNameWithFileContent(["animal","birds"],["cat","hen"]),[ '==> animal <==\ncat\n', '==> birds <==\nhen\n' ]);
+    deepEqual(zipFileNameWithFileContent(["animal"],["cat"],[true]),[ '==> animal <==\ncat\n' ]);
+    deepEqual(zipFileNameWithFileContent(["animal","birds"],["cat","hen"],[true,true]),[ '==> animal <==\ncat\n', '==> birds <==\nhen\n' ]);
   });
 
 
