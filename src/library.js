@@ -83,7 +83,7 @@ const classifyInputs = function(args){
     filesNameIndex++;
 
     if(firstArg[1].match(/[1-9]/)){
-    inputs = { option : "n" , noOfLines : firstArg.slice(1)};
+      inputs = { option : "n" , noOfLines : firstArg.slice(1)};
     }
 
     if(firstArg.length == 2 && isNaN(firstArg[1])){
