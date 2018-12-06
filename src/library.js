@@ -1,16 +1,16 @@
 const head = function(fs,args){
-  let { option , noOfLines , fileNames } = classifyInputs(args);
-  let exception = handleException(noOfLines, option, fileNames, fs);
+  let { option , noOfLines , files } = classifyInputs(args);
+  let exception = handleException(noOfLines, option, files, fs);
   if(exception){
     return exception;
   }
-  let fileContents = fileNames.map(file => readFile(fs,file));
+  let fileContents = files.map(file => readFile(fs,file));
   let extractedContent = fileContents.map(fileContent => extractFileContent(fileContent, noOfLines, option));
-  let filesExistStatus = fileNames.map( file => isFileExist(fs,file));
-  if(fileNames.length == 1){
+  let filesExistStatus = files.map( file => isFileExist(fs,file));
+  if(files.length == 1){
     return extractedContent.join("");
   }
-  let contents = zipFileNameWithFileContent(fileNames,extractedContent,filesExistStatus).join("\n");
+  let contents = zipFileNameWithFileContent(files,extractedContent,filesExistStatus).join("\n");
   let startIndex = 0;
   let lastIndex = contents.lastIndexOf("\n");
   return contents.substring(startIndex,lastIndex);
@@ -21,19 +21,19 @@ const extractFileContent = function(fileContent, noOfLines = 10 ,option = "n"){
   return  options[option](fileContent,noOfLines);
 }
 
-const zipFileNameWithFileContent = function(fileNames,fileContents,filesExistStatus){
+const zipFileNameWithFileContent = function(files,fileContents,filesExistStatus){
   let index = 0;
-  return fileNames.map( function(fileName){
+  return files.map( function(file){
     if(!(filesExistStatus[index])){
       index++;
-      return "head: "+fileName+": No such file or directory\n";
+      return "head: "+file+": No such file or directory\n";
     }
-    return createHead(fileName)+fileContents[index++]+ "\n"
+    return createHead(file)+fileContents[index++]+ "\n"
   });
 }
 
-const createHead = function(fileName){
-  return "==> "+fileName+" <==\n";
+const createHead = function(file){
+  return "==> "+file+" <==\n";
 }
 
 const extractLines = function(fileContent,noOfLines){
@@ -44,7 +44,7 @@ const extractBytes = function(fileContent,noOfBytes){
   return fileContent.split("").slice(0,noOfBytes).join("");
 }
 
-const handleException = function( noOfLines , option , fileNames, fs){
+const handleException = function( noOfLines , option , files, fs){
   let illegalOption = "head: illegal option -- "+option;
   let usage = "usage: head [-n lines | -c bytes] [file ...]";
   let illegalCount = { "n" : "head: illegal line count -- " + noOfLines,
@@ -56,8 +56,8 @@ const handleException = function( noOfLines , option , fileNames, fs){
   if( noOfLines <= 0 || isNaN(noOfLines)){
     return illegalCount[option];
   }
-  if(fileNames.length == 1 && !(fs.existsSync(fileNames[0]))){
-    return "head: "+fileNames[0]+": No such file or directory";
+  if(files.length == 1 && !(fs.existsSync(files[0]))){
+    return "head: "+files[0]+": No such file or directory";
   }
   return "";
 }
@@ -91,7 +91,7 @@ const classifyInputs = function(args){
     }
   }
 
-  inputs.fileNames = args.slice(filesNameIndex);
+  inputs.files = args.slice(filesNameIndex);
   return inputs;
 }
 
