@@ -1,11 +1,11 @@
 const head = function(fs,args){
   let { option , noOfLines , fileNames } = classifyInputs(args);
-  let exception = handleException(noOfLines,option , fileNames , fs);
+  let exception = handleException(noOfLines, option, fileNames, fs);
   if(exception){
     return exception;
   }
   let fileContents = fileNames.map(file => readFile(fs,file));
-  let extractedContent = fileContents.map ( fileContent => extractFileContent(fileContent , noOfLines , option));
+  let extractedContent = fileContents.map(fileContent => extractFileContent(fileContent, noOfLines, option));
   let filesExistStatus = fileNames.map( file => isFileExist(fs,file));
   if(fileNames.length == 1){
     return extractedContent.join("");
@@ -44,7 +44,7 @@ const extractBytes = function(fileContent,noOfBytes){
   return fileContent.split("").slice(0,noOfBytes).join("");
 }
 
-const handleException = function( noOfLines , option , fileNamesi, fs){
+const handleException = function( noOfLines , option , fileNames, fs){
   let illegalOption = "head: illegal option -- "+option;
   let usage = "usage: head [-n lines | -c bytes] [file ...]";
   let illegalCount = { "n" : "head: illegal line count -- " + noOfLines,
@@ -73,27 +73,27 @@ const isFileExist = function(fs,file){
 }
 
 const classifyInputs = function(args){
-  let option = "n";
+  let inputs = { option : "n" , noOfLines : 10};
   let filesNameIndex  = 0;
-  let noOfLines = 10;
   let firstArg = args[0];
   let secondArg = args[1];
 
   if(firstArg.includes("-")){
-    option = firstArg[1];
-    noOfLines = firstArg.slice(2);
+    inputs = { option : firstArg[1], noOfLines : firstArg.slice(2)};
     filesNameIndex++;
+
     if(firstArg[1].match(/[1-9]/)){
-      noOfLines = firstArg.slice(1);
-      option = "n";
+    inputs = { option : "n" , noOfLines : firstArg.slice(1)};
     }
+
     if(firstArg.length == 2 && isNaN(firstArg[1])){
-      noOfLines = secondArg;
+      inputs = { option : firstArg[1] , noOfLines : secondArg};
       filesNameIndex++;
     }
   }
-  fileNames = args.slice(filesNameIndex);
-  return { option , noOfLines , fileNames};
+
+  inputs.fileNames = args.slice(filesNameIndex);
+  return inputs;
 }
 
 module.exports = { extractFileContent,
