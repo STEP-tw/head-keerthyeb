@@ -1,7 +1,8 @@
 const head = function(fs,args){
   let { option , noOfLines , fileNames } = classifyInputs(args);
-  if( noOfLines < 0 || isNaN(noOfLines)){
-    return "head: illegal line count -- "+noOfLines;
+  let exception = handleException(noOfLines,option);
+  if(exception){
+    return exception;
   }
   let fileContents = fileNames.map(file => readFile(fs,file));
   let extractedContent = fileContents.map ( fileContent => extractFileContent(fileContent , noOfLines , option));
@@ -34,6 +35,21 @@ const extractLines = function(fileContent,noOfLines){
 
 const extractBytes = function(fileContent,noOfBytes){
   return fileContent.split("").slice(0,noOfBytes).join("");
+}
+
+const handleException = function( noOfLines , option){
+  let illegalOption = "head: illegal option -- "+option;
+  let usage = "usage: head [-n lines | -c bytes] [file ...]";
+  let illegalCount = { "n" : "head: illegal line count -- " + noOfLines,
+    "c" : "head: illegal byte count -- " + noOfLines };
+
+  if( option != "n" && option != "c"){
+    return illegalOption + "\n" + usage;
+  }
+  if( noOfLines < 0 || isNaN(noOfLines)){
+    return illegalCount[option];
+  }
+  return false;
 }
 
 const readFile = function(fs,file){
