@@ -5,7 +5,7 @@ const { extractFileContent,
   zipFileNameWithFileContent,
   createHead,
   classifyInputs
-  } = require("../src/library.js");
+} = require("../src/library.js");
 
 describe("Test for extractLines" , function(){
   it("should return nothing for an empty string" , function(){
@@ -36,7 +36,6 @@ describe("Test for extractBytes" , function(){
   });
 });
 
-
 describe("Test for extractFileContent" , function(){
 
   describe(" Test for default option -n and default noOfLines 10" , function(){
@@ -51,7 +50,7 @@ describe("Test for extractFileContent" , function(){
 });
 
 describe('classifyInputs',function(){
-    it('should return an object with  option,noOfLines and files ',function(){
+  it('should return an object with  option,noOfLines and files ',function(){
     deepEqual(classifyInputs(["file1"]),{ option: 'n', noOfLines: 10, fileNames: [ 'file1' ] })
     deepEqual(classifyInputs(["-n5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
     deepEqual(classifyInputs(["-n","5","file1"]),{ option: 'n', noOfLines: 5, fileNames: [ 'file1' ] })
@@ -64,7 +63,7 @@ describe('classifyInputs',function(){
     deepEqual(classifyInputs(["-c","5","file1"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1' ] })
     deepEqual(classifyInputs(["-c5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
     deepEqual(classifyInputs(["-c","5","file1","file2"]),{ option: 'c', noOfLines: 5, fileNames: [ 'file1', 'file2' ] })
-   });
+  });
 });
 
 describe("Test for zipFileNameWithFileContent" , function(){
@@ -76,15 +75,13 @@ describe("Test for zipFileNameWithFileContent" , function(){
     deepEqual(zipFileNameWithFileContent([],[1],[]),[]);
     deepEqual(zipFileNameWithFileContent([],["cat"],[]),[]);
   });
-  
+
   it("should return an array which contain heading and contents if two arrays are non-empty " , function(){
     deepEqual(zipFileNameWithFileContent(["animal"],["cat"],[true]),[ '==> animal <==\ncat\n' ]);
     deepEqual(zipFileNameWithFileContent(["animal","birds"],["cat","hen"],[true,true]),[ '==> animal <==\ncat\n', '==> birds <==\nhen\n' ]);
   });
 
-
 });
-
 
 describe("Test for createHead" , function(){
   it("should return an heading like ==> heading <==\n when any text is given" , function(){
