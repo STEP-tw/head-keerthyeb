@@ -46,7 +46,7 @@ const handleException = function( noOfLines , option){
   if( option != "n" && option != "c"){
     return illegalOption + "\n" + usage;
   }
-  if( noOfLines < 0 || isNaN(noOfLines)){
+  if( noOfLines <= 0 || isNaN(noOfLines)){
     return illegalCount[option];
   }
   return false;
