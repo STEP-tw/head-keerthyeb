@@ -75,19 +75,17 @@ const isFileExist = function(fs,file){
 const classifyInputs = function(args){
   let inputs = { option : "n" , noOfLines : 10};
   let filesNameIndex  = 0;
-  let firstArg = args[0];
-  let secondArg = args[1];
 
-  if(firstArg.includes("-")){
-    inputs = { option : firstArg[1], noOfLines : firstArg.slice(2)};
+  if(args[0].includes("-")){
+    inputs = { option : args[0][1], noOfLines : args[0].slice(2)};
     filesNameIndex++;
 
-    if(firstArg[1].match(/[1-9]/)){
-      inputs = { option : "n" , noOfLines : firstArg.slice(1)};
+    if(args[0][1].match(/[1-9]/)){
+      inputs = { option : "n" , noOfLines : args[0].slice(1)};
     }
 
-    if(firstArg.length == 2 && isNaN(firstArg[1])){
-      inputs = { option : firstArg[1] , noOfLines : secondArg};
+    if(args[0].length == 2 && isNaN(args[0][1])){
+      inputs = { option : args[0][1] , noOfLines : args[1]};
       filesNameIndex++;
     }
   }
