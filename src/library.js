@@ -8,10 +8,14 @@ const head = function(fs, args) {
   let extractedContent = fileContents.map(fileContent =>
     extractFileContent(fileContent, noOfLines, option),
   );
-  let filesExistStatus = files.map(file => isFileExist(fs, file));
-  if (files.length == 1) {
+  return handleOutput(files, extractedContent, fs);
+};
+
+const handleOutput = function(files, extractedContent, fs) {
+  if (isSingleFile(files)) {
     return extractedContent.join('');
   }
+  let filesExistStatus = files.map(file => isFileExist(fs, file));
   let contents = zipFileNameWithFileContent(
     files,
     extractedContent,
@@ -20,6 +24,10 @@ const head = function(fs, args) {
   let startIndex = 0;
   let lastIndex = contents.lastIndexOf('\n');
   return contents.substring(startIndex, lastIndex);
+};
+
+const isSingleFile = function(files) {
+  return files.length == 1;
 };
 
 const extractFileContent = function(fileContent, noOfLines = 10, option = 'n') {
@@ -72,7 +80,7 @@ const handleException = function(noOfLines, option, files, fs) {
   if (!isNatural(noOfLines)) {
     return illegalCount[option];
   }
-  if (files.length == 1 && !fs.existsSync(files[0])) {
+  if (isSingleFile(files) && !fs.existsSync(files[0])) {
     return 'head: ' + files[0] + ': No such file or directory';
   }
   return '';
