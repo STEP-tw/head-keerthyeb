@@ -83,7 +83,7 @@ const isValidOption = function(option) {
 };
 
 const isNatural = function(element) {
-  return element >= 0 && !isNaN(element);
+  return element > 0 && !isNaN(element);
 };
 
 const readFile = function(fs, file) {
