@@ -205,4 +205,16 @@ describe("Test for head function" , function(){
     deepEqual(head(fs,["-c",5,"names"]),"head: names: No such file or directory");
   });
 
+  it("should return error message for missing files" , function(){
+    let fs = { readFileSync : function(file){ return names;} ,
+               existsSync : function(file){ if(file == "names"){return true;} return false; }};
+    let names = "keerthy\namju\nmoothu\n";
+    deepEqual(head(fs,["names","animals"]),"==> names <==\n" + names + "\n\nhead: animals: No such file or directory");
+    deepEqual(head(fs,["animals","names"]),"head: animals: No such file or directory\n\n==> names <==\n" + names );
+    deepEqual(head(fs,["-n5","animals","names"]),"head: animals: No such file or directory\n\n==> names <==\n" + names );
+    deepEqual(head(fs,["-n",5,"animals","names"]),"head: animals: No such file or directory\n\n==> names <==\n" + names );
+    deepEqual(head(fs,["-5","animals","names"]),"head: animals: No such file or directory\n\n==> names <==\n" + names );
+    deepEqual(head(fs,["names","animals","names"]),"==> names <==\n" + names + "\n\nhead: animals: No such file or directory\n\n==> names <==\n" + names);
+   });
+
 });
