@@ -5,6 +5,9 @@ const {
   extractBytes,
   head,
   handleException,
+  isValidOption,
+  isNumber,
+  getParameters,
   zipFileNameWithFileContent,
   createHead,
   classifyInputs,
@@ -51,7 +54,7 @@ describe('Test for extractFileContent', function() {
 });
 
 describe('classifyInputs', function() {
-  describe('passing only file numbers', function() {
+  describe('passing only file names', function() {
     it('should return an object with noOfLines as 10 and file name in files array while passing file name as input', function() {
       deepEqual(classifyInputs(['file.txt']), {
         option: 'n',
@@ -60,7 +63,7 @@ describe('classifyInputs', function() {
       });
     });
 
-    it('should return an object with noOfLines as 10 and file numbers in files array while passing file numbers as input', function() {
+    it('should return an object with noOfLines as 10 and file names in files array while passing file names as input', function() {
       deepEqual(classifyInputs(['file.txt', 'file2.txt']), {
         option: 'n',
         noOfLines: 10,
@@ -411,5 +414,65 @@ describe('Test for head function', function() {
         '\n\nhead: animals: No such file or directory\n\n==> numbers <==\n' +
         numbers,
     );
+  });
+});
+
+describe('Test for isValidOption', function() {
+  it('should return true if option is valid', function() {
+    deepEqual(isValidOption('c'), true);
+    deepEqual(isValidOption('n'), true);
+    deepEqual(isValidOption('2'), false);
+    deepEqual(isValidOption('p'), false);
+  });
+});
+
+describe('getParameters', function() {
+  it('should return an object with option n and noOfLines, file in files array while passing the noOfLines & file as input', () => {
+    deepEqual(getParameters(['-5', 'file.txt']), {
+      option: 'n',
+      noOfLines: 5,
+      files: ['file.txt'],
+    });
+    deepEqual(getParameters(['-10', 'file.txt', 'file2.txt', 'file3.txt']), {
+      option: 'n',
+      noOfLines: 10,
+      files: ['file.txt', 'file2.txt', 'file3.txt'],
+    });
+  });
+
+  it('should return an object of option, noOfLines and files when all three arguments are passed', function() {
+    deepEqual(getParameters(['-n1', 'file.txt']), {
+      option: 'n',
+      noOfLines: 1,
+      files: ['file.txt'],
+    });
+    deepEqual(getParameters(['-n', '10', 'file.txt']), {
+      option: 'n',
+      noOfLines: 10,
+      files: ['file.txt'],
+    });
+    deepEqual(getParameters(['-n', '-1', 'file.txt', 'file2.txt']), {
+      option: 'n',
+      noOfLines: -1,
+      files: ['file.txt', 'file2.txt'],
+    });
+  });
+
+  it('should return an object of option c and noOfLines of givrn balue for passing input', function() {
+    deepEqual(getParameters(['-c1', 'file.txt', 'file2.txt']), {
+      option: 'c',
+      noOfLines: 1,
+      files: ['file.txt', 'file2.txt'],
+    });
+    deepEqual(getParameters(['-c', '1', 'file.txt']), {
+      option: 'c',
+      noOfLines: 1,
+      files: ['file.txt'],
+    });
+    deepEqual(getParameters(['-c', '1', 'file.txt', 'file2.txt']), {
+      option: 'c',
+      noOfLines: 1,
+      files: ['file.txt', 'file2.txt'],
+    });
   });
 });

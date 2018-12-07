@@ -32,7 +32,7 @@ const zipFileNameWithFileContent = function(
   fileContents,
   filesExistStatus,
 ) {
-  return files.map(function(file,index) {
+  return files.map(function(file, index) {
     if (!filesExistStatus[index]) {
       return 'head: ' + file + ': No such file or directory\n';
     }
@@ -66,16 +66,24 @@ const handleException = function(noOfLines, option, files, fs) {
     c: 'head: illegal byte count -- ' + noOfLines,
   };
 
-  if (option != 'n' && option != 'c') {
+  if (!isValidOption(option)) {
     return illegalOption + '\n' + usage;
   }
-  if (noOfLines <= 0 || isNaN(noOfLines)) {
+  if (!isNatural(noOfLines)) {
     return illegalCount[option];
   }
   if (files.length == 1 && !fs.existsSync(files[0])) {
     return 'head: ' + files[0] + ': No such file or directory';
   }
   return '';
+};
+
+const isValidOption = function(option) {
+  return option == 'n' || option == 'c';
+};
+
+const isNatural = function(element) {
+  return element >= 0 && !isNaN(element);
 };
 
 const readFile = function(fs, file) {
@@ -89,26 +97,27 @@ const isFileExist = function(fs, file) {
   return fs.existsSync(file);
 };
 
-const classifyInputs = function(args) {
-  let inputs = {option: 'n', noOfLines: 10};
-  let filesNameIndex = 0;
-
-  if (args[0].includes('-')) {
-    inputs = {option: args[0][1], noOfLines: args[0].slice(2)};
-    filesNameIndex++;
-
-    if (args[0][1].match(/[1-9]/)) {
-      inputs = {option: 'n', noOfLines: args[0].slice(1)};
-    }
-
-    if (args[0].length == 2 && isNaN(args[0][1])) {
-      inputs = {option: args[0][1], noOfLines: args[1]};
-      filesNameIndex++;
-    }
+const getParameters = function(args) {
+  if (isNatural(args[0][1])) {
+    return {option: 'n', noOfLines: args[0].slice(1), files: args.slice(1)};
   }
 
-  inputs.files = args.slice(filesNameIndex);
-  return inputs;
+  if (args[0].length == 2 && isNaN(args[0][1])) {
+    return {option: args[0][1], noOfLines: args[1], files: args.slice(2)};
+  }
+  return {
+    option: args[0][1],
+    noOfLines: args[0].slice(2),
+    files: args.slice(1),
+  };
+};
+
+const classifyInputs = function(args) {
+  if (args[0].includes('-')) {
+    return getParameters(args);
+  }
+
+  return {option: 'n', noOfLines: 10, files: args};
 };
 
 module.exports = {
@@ -119,6 +128,9 @@ module.exports = {
   classifyInputs,
   handleException,
   head,
+  isValidOption,
+  isNatural,
+  getParameters,
   createHead,
   zipFileNameWithFileContent,
 };
