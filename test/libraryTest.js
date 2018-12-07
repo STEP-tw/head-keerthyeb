@@ -145,20 +145,20 @@ describe("Test for handleException" , function(){
 describe("Test for head function" , function(){
   it("should return first 10 lines of the text if only file name is given " , function(){
     let names = "keerthy\namju\nmoothu";
-    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    let fs = { readFileSync : function(file){ return file;} , existsSync : function(file){ return true }};
     deepEqual(head(fs,[names]),names);
   });
 
   it("should return first given number of lines of the text if file name and no of lines are given " , function(){
     let names = "keerthy\namju\nmoothu";
-    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    let fs = { readFileSync : function(file){ return file;} , existsSync : function(file){ return true }};
     deepEqual(head(fs,["-5",names]),names);
     deepEqual(head(fs,["-1",names]),"keerthy");
   });
 
   it("should return first given number of lines of the text if file name, no of lines and option 'n' are given " , function(){
     let names = "keerthy\namju\nmoothu";
-    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    let fs = { readFileSync : function(file){ return file;} , existsSync : function(file){ return true }};
     deepEqual(head(fs,["-n1", names]),"keerthy");
     deepEqual(head(fs,["-n5", names]),names);
     deepEqual(head(fs,["-n", 1, names]),"keerthy");
@@ -167,7 +167,7 @@ describe("Test for head function" , function(){
 
   it("should return first given number of characters " , function(){
     let names = "keerthy\namju\nmoothu";
-    let fs = { readFileSync : function(file){ return names;} , existsSync : function(file){ return true }};
+    let fs = { readFileSync : function(file){ return file;} , existsSync : function(file){ return true }};
     deepEqual(head(fs,["-c1", names]),"k");
     deepEqual(head(fs,["-c", 1, names]),"k");
     deepEqual(head(fs,["-c", 9, names]),"keerthy\na");
