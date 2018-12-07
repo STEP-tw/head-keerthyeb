@@ -6,7 +6,7 @@ const {
   head,
   handleException,
   isValidOption,
-  isNumber,
+  isNatural,
   getParameters,
   zipFileNameWithFileContent,
   createHead,
@@ -423,6 +423,15 @@ describe('Test for isValidOption', function() {
     deepEqual(isValidOption('n'), true);
     deepEqual(isValidOption('2'), false);
     deepEqual(isValidOption('p'), false);
+  });
+});
+
+describe('Test for isNatural', function() {
+  it('should return true if option is valid', function() {
+    deepEqual(isNatural(0), false);
+    deepEqual(isNatural('p'), false);
+    deepEqual(isNatural(4), true);
+    deepEqual(isNatural(-1), false);
   });
 });
 
