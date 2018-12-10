@@ -11,6 +11,10 @@ const head = function(fs, args) {
   return handleOutput(files, extractedContent, fs);
 };
 
+const tail = function(fs,args){
+    return 
+   }
+  
 const handleOutput = function(files, extractedContent, fs) {
   if (isSingleFile(files)) {
     return extractedContent.join('');
@@ -65,6 +69,7 @@ const extractBytes = function(fileContent, noOfBytes) {
     .slice(0, noOfBytes)
     .join('');
 };
+
 
 const handleException = function(noOfLines, option, files, fs) {
   let illegalOption = 'head: illegal option -- ' + option;
@@ -140,5 +145,6 @@ module.exports = {
   isNatural,
   getParameters,
   createHead,
+  tail,
   zipFileNameWithFileContent,
 };
