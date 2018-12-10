@@ -21,10 +21,10 @@ const tail = function(fs,args){
     let extractedContent = fileContents.map(fileContent =>
       extractFileContentForTail(fileContent, noOfLines, option),
       );
-    return handleOutput(files,extractedContent, fs);
+    return handleOutput(files,extractedContent, fs, 'tail');
    }
   
-const handleOutput = function(files, extractedContent, fs) {
+const handleOutput = function(files, extractedContent, fs, type = 'head') {
   if (isSingleFile(files)) {
     return extractedContent.join('');
   }
@@ -33,6 +33,7 @@ const handleOutput = function(files, extractedContent, fs) {
     files,
     extractedContent,
     filesExistStatus,
+    type
   ).join('\n');
   let startIndex = 0;
   let lastIndex = contents.lastIndexOf('\n');
@@ -57,10 +58,11 @@ const zipFileNameWithFileContent = function(
   files,
   fileContents,
   filesExistStatus,
+  type
 ) {
   return files.map(function(file, index) {
     if (!filesExistStatus[index]) {
-      return 'head: ' + file + ': No such file or directory\n';
+      return type +': ' + file + ': No such file or directory\n';
     }
     return createHead(file) + fileContents[index] + '\n';
   });
