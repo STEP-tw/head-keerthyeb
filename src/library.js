@@ -12,7 +12,12 @@ const head = function(fs, args) {
 };
 
 const tail = function(fs,args){
-    return 
+    let {option, noOfLines, files} = classifyInputs(args);
+    let fileContents = files.map(file => readFile(fs,file));
+    let extractedContent = fileContents.map(fileContent =>
+      extractFileContentForTail(fileContent, noOfLines, option),
+      );
+    return handleOutput(files,extractedContent, fs);
    }
   
 const handleOutput = function(files, extractedContent, fs) {
@@ -39,6 +44,11 @@ const extractFileContent = function(fileContent, noOfLines = 10, option = 'n') {
   return options[option](fileContent, noOfLines);
 };
 
+const extractFileContentForTail = function(fileContent, noOfLines =10, option ="n"){
+  const options = { n : selectLastLines, c : selectLastBytes};
+  return options[option](fileContent, noOfLines);
+}
+
 const zipFileNameWithFileContent = function(
   files,
   fileContents,
@@ -63,6 +73,15 @@ const extractLines = function(fileContent, noOfLines) {
     .join('\n');
 };
 
+const selectLastLines = function(fileContent, noOfLines){
+  return fileContent
+  .split("\n")
+  .reverse()
+  .slice(0,noOfLines)
+  .reverse()
+  .join('\n');
+}
+
 const extractBytes = function(fileContent, noOfBytes) {
   return fileContent
     .split('')
@@ -70,6 +89,14 @@ const extractBytes = function(fileContent, noOfBytes) {
     .join('');
 };
 
+const selectLastBytes = function(fileContent, noOfBytes) {
+  return fileContent
+    .split('')
+    .reverse()
+    .slice(0, noOfBytes)
+    .reverse()
+    .join('');
+};
 
 const handleException = function(noOfLines, option, files, fs) {
   let illegalOption = 'head: illegal option -- ' + option;
