@@ -13,6 +13,10 @@ const head = function(fs, args) {
 
 const tail = function(fs,args){
     let {option, noOfLines, files} = classifyInputs(args);
+    let exception = handleTailException(noOfLines, option, files, fs);
+    if(exception){
+      return exception;
+    }
     let fileContents = files.map(file => readFile(fs,file));
     let extractedContent = fileContents.map(fileContent =>
       extractFileContentForTail(fileContent, noOfLines, option),
@@ -117,6 +121,23 @@ const handleException = function(noOfLines, option, files, fs) {
   }
   return '';
 };
+
+const handleTailException = function(noOfLines, option, files, fs){
+  let illegalOption = "tail: illegal option -- "+ option;
+  let usage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+  let illegalCount = "tail: illegal offset -- "+ noOfLines;
+
+  if(!isValidOption(option)){
+    return illegalOption + "\n" + usage;
+  }
+  if(isNaN(noOfLines)){
+    return illegalCount;
+  }
+if(isSingleFile(files) && !fs.existsSync(files[0])){
+  return 'tail: '+ files[0] + ': No such file or directory';
+}
+return'';
+}
 
 const isValidOption = function(option) {
   return option == 'n' || option == 'c';
