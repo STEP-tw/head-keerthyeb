@@ -1,6 +1,8 @@
+const { isNatural } = require('./util.js');
+
 const head = function(fs, args) {
   let {option, noOfLines, files} = classifyInputs(args);
-  let exception = handleException(noOfLines, option, files, fs);
+  let exception = handleHeadException(noOfLines, option, files, fs);
   if (exception) {
     return exception;
   }
@@ -11,19 +13,19 @@ const head = function(fs, args) {
   return handleOutput(files, extractedContent, fs);
 };
 
-const tail = function(fs,args){
-    let {option, noOfLines, files} = classifyInputs(args);
-    let exception = handleTailException(noOfLines, option, files, fs);
-    if(exception){
-      return exception;
-    }
-    let fileContents = files.map(file => readFile(fs,file));
-    let extractedContent = fileContents.map(fileContent =>
-      extractFileContentForTail(fileContent, noOfLines, option),
-      );
-    return handleOutput(files,extractedContent, fs, 'tail');
-   }
-  
+const tail = function(fs, args) {
+  let {option, noOfLines, files} = classifyInputs(args);
+  let exception = handleTailException(noOfLines, option, files, fs);
+  if (exception) {
+    return exception;
+  }
+  let fileContents = files.map(file => readFile(fs, file));
+  let extractedContent = fileContents.map(fileContent =>
+    extractFileContentForTail(fileContent, noOfLines, option),
+  );
+  return handleOutput(files, extractedContent, fs, 'tail');
+};
+
 const handleOutput = function(files, extractedContent, fs, type = 'head') {
   if (isSingleFile(files)) {
     return extractedContent.join('');
@@ -33,7 +35,7 @@ const handleOutput = function(files, extractedContent, fs, type = 'head') {
     files,
     extractedContent,
     filesExistStatus,
-    type
+    type,
   ).join('\n');
   let startIndex = 0;
   let lastIndex = contents.lastIndexOf('\n');
@@ -49,20 +51,24 @@ const extractFileContent = function(fileContent, noOfLines = 10, option = 'n') {
   return options[option](fileContent, noOfLines);
 };
 
-const extractFileContentForTail = function(fileContent, noOfLines =10, option ="n"){
-  const options = { n : selectLastLines, c : selectLastBytes};
+const extractFileContentForTail = function(
+  fileContent,
+  noOfLines = 10,
+  option = 'n',
+) {
+  const options = {n: selectLastLines, c: selectLastBytes};
   return options[option](fileContent, noOfLines);
-}
+};
 
 const zipFileNameWithFileContent = function(
   files,
   fileContents,
   filesExistStatus,
-  type
+  type,
 ) {
   return files.map(function(file, index) {
     if (!filesExistStatus[index]) {
-      return type +': ' + file + ': No such file or directory\n';
+      return type + ': ' + file + ': No such file or directory\n';
     }
     return createHead(file) + fileContents[index] + '\n';
   });
@@ -79,14 +85,14 @@ const extractLines = function(fileContent, noOfLines) {
     .join('\n');
 };
 
-const selectLastLines = function(fileContent, noOfLines){
+const selectLastLines = function(fileContent, noOfLines) {
   return fileContent
-  .split("\n")
-  .reverse()
-  .slice(0,noOfLines)
-  .reverse()
-  .join('\n');
-}
+    .split('\n')
+    .reverse()
+    .slice(0, noOfLines)
+    .reverse()
+    .join('\n');
+};
 
 const extractBytes = function(fileContent, noOfBytes) {
   return fileContent
@@ -104,7 +110,7 @@ const selectLastBytes = function(fileContent, noOfBytes) {
     .join('');
 };
 
-const handleException = function(noOfLines, option, files, fs) {
+const handleHeadException = function(noOfLines, option, files, fs) {
   let illegalOption = 'head: illegal option -- ' + option;
   let usage = 'usage: head [-n lines | -c bytes] [file ...]';
   let illegalCount = {
@@ -124,29 +130,25 @@ const handleException = function(noOfLines, option, files, fs) {
   return '';
 };
 
-const handleTailException = function(noOfLines, option, files, fs){
-  let illegalOption = "tail: illegal option -- "+ option;
-  let usage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
-  let illegalCount = "tail: illegal offset -- "+ noOfLines;
+const handleTailException = function(noOfLines, option, files, fs) {
+  let illegalOption = 'tail: illegal option -- ' + option;
+  let usage = 'usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]';
+  let illegalCount = 'tail: illegal offset -- ' + noOfLines;
 
-  if(!isValidOption(option)){
-    return illegalOption + "\n" + usage;
+  if (!isValidOption(option)) {
+    return illegalOption + '\n' + usage;
   }
-  if(isNaN(noOfLines)){
+  if (isNaN(noOfLines)) {
     return illegalCount;
   }
-if(isSingleFile(files) && !fs.existsSync(files[0])){
-  return 'tail: '+ files[0] + ': No such file or directory';
-}
-return'';
-}
+  if (isSingleFile(files) && !fs.existsSync(files[0])) {
+    return 'tail: ' + files[0] + ': No such file or directory';
+  }
+  return '';
+};
 
 const isValidOption = function(option) {
   return option == 'n' || option == 'c';
-};
-
-const isNatural = function(element) {
-  return element > 0 && !isNaN(element);
 };
 
 const readFile = function(fs, file) {
@@ -189,12 +191,21 @@ module.exports = {
   readFile,
   extractBytes,
   classifyInputs,
-  handleException,
+  tail,
+  handleOutput,
+  isSingleFile,
+  extractFileContentForTail,
+  selectLastBytes,
+  selectLastLines,
+  handleTailException,
+  handleHeadException,
   head,
   isValidOption,
-  isNatural,
   getParameters,
   createHead,
+  handleHeadException,
+  selectLastLines,
+  selectLastBytes,
   tail,
   zipFileNameWithFileContent,
 };
