@@ -433,7 +433,7 @@ describe("Test for isValidOption", function() {
 });
 
 describe("getParameters", function() {
-  it("should return an object with option n and noOfLines, file in files array while passing the noOfLines & file as input", () => {
+  it("should return an object with option n and noOfLines, file in files array ", () => {
     deepEqual(getParameters(["-5", "file.txt"]), {
       option: "n",
       noOfLines: 5,
@@ -446,7 +446,7 @@ describe("getParameters", function() {
     });
   });
 
-  it("should return an object of option, noOfLines and files when all three arguments are passed", function() {
+  it("should return an object of option, noOfLines and files ", function() {
     deepEqual(getParameters(["-n1", "file.txt"]), {
       option: "n",
       noOfLines: 1,
@@ -464,7 +464,7 @@ describe("getParameters", function() {
     });
   });
 
-  it("should return an object of option c and noOfLines of givrn balue for passing input", function() {
+  it("should return an object of option c and noOfLines of given value for passing input", function() {
     deepEqual(getParameters(["-c1", "file.txt", "file2.txt"]), {
       option: "c",
       noOfLines: 1,
@@ -530,3 +530,66 @@ describe("Test for isSingleFile", function() {
     deepEqual(isSingleFile(["file1", "file2"]), false);
   });
 });
+
+describe("Test for handleTailException", function() {
+  it("should return empty if all arguments are valid ", function() {
+    let fs = {
+      existsSync: function(file) {
+        return true;
+      }
+    };
+    deepEqual(handleTailException(2, "n", ["file1", "file2"], fs), "");
+    deepEqual(handleTailException(2, "c", ["file"], fs), "");
+  });
+
+  it("should return illegal option message for illegal option ", function() {
+    let fs = {
+      existsSync: function(file) {
+        return true;
+      }
+    };
+    let illegalOption = "tail: illegal option -- ";
+    let usage =
+      "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+    deepEqual(
+      handleTailException(2, "-p", ["file1", "file2"], fs),
+      illegalOption + "-p\n" + usage
+    );
+  });
+
+  it("should return illegal offset message for illegal count ", function() {
+    let fs = {
+      existsSync: function(file) {
+        return true;
+      }
+    };
+    let illegalOffsetMsg = "tail: illegal offset -- ";
+    deepEqual(
+      handleTailException("p", "c", ["file1", "file2"], fs),
+      illegalOffsetMsg + "p"
+    );
+  });
+
+  it("should return nothing for legal count and negative numbers ", function() {
+    let fs = {
+      existsSync: function(file) {
+        return true;
+      }
+    };
+    let illegalOffsetMsg = "tail: illegal offset -- ";
+    deepEqual(handleTailException("2", "c", ["file1", "file2"], fs), "");
+    deepEqual(handleTailException("-2", "c", ["file1", "file2"], fs), "");
+    deepEqual(handleTailException("0", "c", ["file1", "file2"], fs), "");
+  });
+
+  it("should return error msg if the file not exist ", function() {
+    let fs = {
+      existsSync: function(file) {
+        return false;
+      }
+    };
+    let error = "tail: file1: No such file or directory";
+    deepEqual(handleTailException(2, "n", ["file1"], fs), error);
+  });
+});
+
