@@ -176,14 +176,6 @@ describe('Test for head function', function() {
       head(fs, ['-n', 5, 'numbers', 'numbers']),
       '==> numbers <==\n' + numbers + '\n\n==> numbers <==\n' + numbers,
     );
-    deepEqual(
-      head(fs, ['-n5', 'numbers', 'numbers']),
-      '==> numbers <==\n' + numbers + '\n\n==> numbers <==\n' + numbers,
-    );
-    deepEqual(
-      head(fs, ['-5', 'numbers', 'numbers']),
-      '==> numbers <==\n' + numbers + '\n\n==> numbers <==\n' + numbers,
-    );
   });
 
   it('should return first given number of characters of the 2 strings ', function() {
@@ -221,19 +213,7 @@ describe('Test for head function', function() {
       'head: numbers: No such file or directory',
     );
     deepEqual(
-      head(fs, ['-5', 'numbers']),
-      'head: numbers: No such file or directory',
-    );
-    deepEqual(
-      head(fs, ['-n', 5, 'numbers']),
-      'head: numbers: No such file or directory',
-    );
-    deepEqual(
       head(fs, ['-c5', 'numbers']),
-      'head: numbers: No such file or directory',
-    );
-    deepEqual(
-      head(fs, ['-c', 5, 'numbers']),
       'head: numbers: No such file or directory',
     );
   });
