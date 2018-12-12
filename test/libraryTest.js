@@ -100,7 +100,7 @@ describe('Test for head function', function() {
     deepEqual(head(fs, [numbers]), numbers);
   });
 
-  it('should return first given number of lines of the text if file name and no of lines are given ', function() {
+  it('should return first given number of lines of the text if  no of lines are given ', function() {
     let numbers = '1\n2\n3';
     let fs = {
       readFileSync: function(file) {
@@ -114,7 +114,7 @@ describe('Test for head function', function() {
     deepEqual(head(fs, ['-1', numbers]), '1');
   });
 
-  it("should return first given number of lines of the text if file name, no of lines and option 'n' are given ", function() {
+  it("should return first given number of lines of the text if option 'n' is also given ", function() {
     let numbers = '1\n2\n3';
     let fs = {
       readFileSync: function(file) {
@@ -215,10 +215,7 @@ describe('Test for head function', function() {
         return false;
       },
     };
-    deepEqual(
-      head(fs, ['numbers']),
-      'head: numbers: No such file or directory',
-    );
+
     deepEqual(
       head(fs, ['-n5', 'numbers']),
       'head: numbers: No such file or directory',
@@ -255,6 +252,10 @@ describe('Test for head function', function() {
     };
     let numbers = '1\n2\n3\n';
     deepEqual(
+      head(fs, ['animals']),
+      'head: animals: No such file or directory',
+    );
+    deepEqual(
       head(fs, ['numbers', 'animals']),
       '==> numbers <==\n' +
         numbers +
@@ -262,18 +263,6 @@ describe('Test for head function', function() {
     );
     deepEqual(
       head(fs, ['animals', 'numbers']),
-      'head: animals: No such file or directory\n\n==> numbers <==\n' + numbers,
-    );
-    deepEqual(
-      head(fs, ['-n5', 'animals', 'numbers']),
-      'head: animals: No such file or directory\n\n==> numbers <==\n' + numbers,
-    );
-    deepEqual(
-      head(fs, ['-n', 5, 'animals', 'numbers']),
-      'head: animals: No such file or directory\n\n==> numbers <==\n' + numbers,
-    );
-    deepEqual(
-      head(fs, ['-5', 'animals', 'numbers']),
       'head: animals: No such file or directory\n\n==> numbers <==\n' + numbers,
     );
     deepEqual(
@@ -323,5 +312,135 @@ describe('Test for extractFileContentForTail', function() {
       deepEqual(extractFileContentForTail(empty), '');
       deepEqual(extractFileContentForTail(numbers), '1\n2');
     });
+  });
+});
+
+describe('Test for tail function', function() {
+  it('should return last 10 lines of the text if only file name is given ', function() {
+    let numbers = '1\n2\n3';
+    let fs = {
+      readFileSync: function(file) {
+        return file;
+      },
+      existsSync: function(file) {
+        return true;
+      },
+    };
+    deepEqual(tail(fs, [numbers]), numbers);
+  });
+
+  it('should return last given number of lines of the text', function() {
+    let numbers = '1\n2\n3';
+    let fs = {
+      readFileSync: function(file) {
+        return file;
+      },
+      existsSync: function(file) {
+        return true;
+      },
+    };
+    deepEqual(tail(fs, ['-5', numbers]), numbers);
+    deepEqual(tail(fs, ['-1', numbers]), '3');
+  });
+
+  it("should return last given number of lines of the text if the option 'n' is also given ", function() {
+    let numbers = '1\n2\n3';
+    let fs = {
+      readFileSync: function(file) {
+        return file;
+      },
+      existsSync: function(file) {
+        return true;
+      },
+    };
+    deepEqual(tail(fs, ['-n1', numbers]), '3');
+    deepEqual(tail(fs, ['-n5', numbers]), numbers);
+    deepEqual(tail(fs, ['-n', 1, numbers]), '3');
+    deepEqual(tail(fs, ['-n', 5, numbers]), numbers);
+  });
+
+  it('should return last given number of characters ', function() {
+    let numbers = '1\n2\n3';
+    let fs = {
+      readFileSync: function(file) {
+        return file;
+      },
+      existsSync: function(file) {
+        return true;
+      },
+    };
+    deepEqual(tail(fs, ['-c1', numbers]), '3');
+    deepEqual(tail(fs, ['-c', 1, numbers]), '3');
+    deepEqual(tail(fs, ['-c', 9, numbers]), '1\n2\n3');
+    deepEqual(tail(fs, ['-c9', numbers]), '1\n2\n3');
+  });
+
+  it('should return last 10 lines of the 2 strings ', function() {
+    let numbers = '1\n2\n3\n';
+    let fs = {
+      readFileSync: function(file) {
+        return numbers;
+      },
+      existsSync: function(file) {
+        return true;
+      },
+    };
+    deepEqual(
+      tail(fs, ['numbers', 'numbers']),
+      '==> numbers <==\n' + numbers + '\n\n==> numbers <==\n' + numbers,
+    );
+  });
+
+  it('should return last given number of lines of the 2 strings ', function() {
+    let numbers = '1\n2\n3\n';
+    let fs = {
+      readFileSync: function(file) {
+        return numbers;
+      },
+      existsSync: function(file) {
+        return true;
+      },
+    };
+    deepEqual(
+      tail(fs, ['-n5', 'numbers', 'numbers']),
+      '==> numbers <==\n' + numbers + '\n\n==> numbers <==\n' + numbers,
+    );
+    deepEqual(
+      tail(fs, ['-5', 'numbers', 'numbers']),
+      '==> numbers <==\n' + numbers + '\n\n==> numbers <==\n' + numbers,
+    );
+  });
+
+  it('should return error message for missing files', function() {
+    let fs = {
+      readFileSync: function(file) {
+        return numbers;
+      },
+      existsSync: function(file) {
+        if (file == 'numbers') {
+          return true;
+        }
+        return false;
+      },
+    };
+    let numbers = '1\n2\n3\n';
+    deepEqual(
+      tail(fs, ['animals']),
+      'tail: animals: No such file or directory',
+    );
+
+    deepEqual(
+      tail(fs, ['numbers', 'animals']),
+      '==> numbers <==\n' +
+        numbers +
+        '\n\ntail: animals: No such file or directory',
+    );
+    deepEqual(
+      tail(fs, ['numbers', 'animals', 'numbers']),
+      '==> numbers <==\n' +
+        numbers +
+        '\n\ntail: animals: No such file or directory\n\n==> numbers <==\n' +
+        numbers,
+    );
   });
 });
