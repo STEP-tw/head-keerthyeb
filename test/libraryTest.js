@@ -2,7 +2,7 @@ const { deepEqual } = require("assert");
 const {
   extractFileContent,
   tail,
-  handleOutput,
+  getFormattedContent,
   extractFileContentForTail,
   selectLastLines,
   selectLastBytes,
@@ -425,7 +425,7 @@ describe("Test for tail function", function() {
   });
 });
 
-describe("Test for handleOutput", function() {
+describe("Test for getFormattedContent", function() {
   it("should return the output as head do", function() {
     let fs = {
       existsSync: function(file) {
@@ -435,9 +435,9 @@ describe("Test for handleOutput", function() {
         return false;
       }
     };
-    deepEqual(handleOutput(["numbers"], ["1\n2\n3\n"], fs), "1\n2\n3\n");
+    deepEqual(getFormattedContent(["numbers"], ["1\n2\n3\n"], fs), "1\n2\n3\n");
     deepEqual(
-      handleOutput(["numbers", "numbers"], ["1", "1"], fs),
+      getFormattedContent(["numbers", "numbers"], ["1", "1"], fs),
       "==> numbers <==\n1\n\n==> numbers <==\n1"
     );
   });

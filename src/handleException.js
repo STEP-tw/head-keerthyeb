@@ -14,7 +14,7 @@ const handleHeadException = function(noOfLines, option, files, fs) {
   if (!isNatural(noOfLines)) {
     return illegalCount[option];
   }
-  if (isSingleFile(files) && !fs.existsSync(files[0])) {
+  if (isSingleFile(files) && !isFileExist(fs, files[0])) {
     return "head: " + files[0] + ": No such file or directory";
   }
   return "";
@@ -31,7 +31,7 @@ const handleTailException = function(noOfLines, option, files, fs) {
   if (isNaN(noOfLines)) {
     return illegalCount;
   }
-  if (isSingleFile(files) && !fs.existsSync(files[0])) {
+  if (isSingleFile(files) && !isFileExist(fs, files[0])) {
     return "tail: " + files[0] + ": No such file or directory";
   }
   return "";
