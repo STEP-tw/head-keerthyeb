@@ -127,6 +127,7 @@ module.exports = {
   extractBytes,
   tail,
   handleOutput,
+  handleOutput,
   extractFileContentForTail,
   selectLastBytes,
   selectLastLines,
