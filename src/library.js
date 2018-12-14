@@ -7,26 +7,26 @@ const {
 } = require("./handleException.js");
 const { getParameters, classifyInputs } = require("./handleInput.js");
 
-const head = function(fs, args) {
+const head = function(fs, commandArguments) {
   let headMethods = {
     errorHandler: handleHeadError,
     contentExtractor: extractFileContent,
     type: "head"
   };
-  return runCommand(fs, args, headMethods);
+  return runCommand(fs, commandArguments, headMethods);
 };
 
-const tail = function(fs, args) {
+const tail = function(fs, commandArguments) {
   let tailMethods = {
     errorHandler: handleTailError,
     contentExtractor: extractFileContentForTail,
     type: "tail"
   };
-  return runCommand(fs, args, tailMethods);
+  return runCommand(fs, commandArguments, tailMethods);
 };
 
-const runCommand = function(fs, args, commandOperation) {
-  let { option, numberOfLines, files } = classifyInputs(args);
+const runCommand = function(fs, commandArguments, commandOperation) {
+  let { option, numberOfLines, files } = classifyInputs(commandArguments);
   let errorMessage = commandOperation.errorHandler(numberOfLines, option, files, fs);
   if (errorMessage) {
     return errorMessage;
