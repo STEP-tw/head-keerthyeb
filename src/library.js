@@ -26,14 +26,14 @@ const tail = function(fs, args) {
 };
 
 const runCommand = function(fs, args, filterer) {
-  let { option, noOfLines, files } = classifyInputs(args);
-  let exception = filterer.exceptionHandler(noOfLines, option, files, fs);
+  let { option, numberOfLines, files } = classifyInputs(args);
+  let exception = filterer.exceptionHandler(numberOfLines, option, files, fs);
   if (exception) {
     return exception;
   }
   let fileContents = files.map(file => readFile(fs, file));
   let extractedContent = fileContents.map(fileContent =>
-    filterer.extractor(fileContent, noOfLines, option)
+    filterer.extractor(fileContent, numberOfLines, option)
   );
   return getFormattedContent(files, extractedContent, fs, filterer.type);
 };
@@ -54,18 +54,18 @@ const getFormattedContent = function(files, extractedContent, fs, type) {
   return contents.substring(startIndex, lastIndex);
 };
 
-const extractFileContent = function(fileContent, noOfLines = 10, option = "n") {
+const extractFileContent = function(fileContent, numberOfLines = 10, option = "n") {
   const options = { n: extractLines, c: extractBytes };
-  return options[option](fileContent, noOfLines);
+  return options[option](fileContent, numberOfLines);
 };
 
 const extractFileContentForTail = function(
   fileContent,
-  noOfLines = 10,
+  numberOfLines = 10,
   option = "n"
 ) {
   const options = { n: selectLastLines, c: selectLastBytes };
-  return options[option](fileContent, noOfLines);
+  return options[option](fileContent, numberOfLines);
 };
 
 const zipFileNameWithFileContent = function(
@@ -86,18 +86,18 @@ const createHead = function(file) {
   return "==> " + file + " <==\n";
 };
 
-const extractLines = function(fileContent, noOfLines) {
+const extractLines = function(fileContent, numberOfLines) {
   return fileContent
     .split("\n")
-    .slice(0, noOfLines)
+    .slice(0, numberOfLines)
     .join("\n");
 };
 
-const selectLastLines = function(fileContent, noOfLines) {
+const selectLastLines = function(fileContent, numberOfLines) {
   return fileContent
     .split("\n")
     .reverse()
-    .slice(0, noOfLines)
+    .slice(0, numberOfLines)
     .reverse()
     .join("\n");
 };

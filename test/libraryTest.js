@@ -43,7 +43,7 @@ describe("Test for extractBytes", function() {
 });
 
 describe("Test for extractFileContent", function() {
-  describe(" Test for default option -n and default noOfLines 10", function() {
+  describe(" Test for default option -n and default numberOfLines 10", function() {
     it("should return the first 10 lines of the given text", function() {
       let numbers = "1\n2";
       let empty = "";
@@ -285,7 +285,7 @@ describe("Test for selectLastBytes", function() {
 });
 
 describe("Test for extractFileContentForTail", function() {
-  describe(" Test for default option -n and default noOfLines 10", function() {
+  describe(" Test for default option -n and default numberOfLines 10", function() {
     it("should return the first 10 lines of the given text", function() {
       let numbers = "1\n2";
       let empty = "";
