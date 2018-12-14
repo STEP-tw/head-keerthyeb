@@ -25,17 +25,17 @@ const tail = function(fs, args) {
   return runCommand(fs, args, tailMethods);
 };
 
-const runCommand = function(fs, args, filterer) {
+const runCommand = function(fs, args, commandOperation) {
   let { option, numberOfLines, files } = classifyInputs(args);
-  let exception = filterer.errorHandler(numberOfLines, option, files, fs);
-  if (exception) {
-    return exception;
+  let errorMessage = commandOperation.errorHandler(numberOfLines, option, files, fs);
+  if (errorMessage) {
+    return errorMessage;
   }
   let fileContents = files.map(file => readFile(fs, file));
   let extractedContent = fileContents.map(fileContent =>
-    filterer.contentExtractor(fileContent, numberOfLines, option)
+    commandOperation.contentExtractor(fileContent, numberOfLines, option)
   );
-  return getFormattedContent(files, extractedContent, fs, filterer.type);
+  return getFormattedContent(files, extractedContent, fs, commandOperation.type);
 };
 
 const getFormattedContent = function(files, extractedContent, fs, type) {
