@@ -78,11 +78,11 @@ const zipFileNameWithFileContent = function(
     if (!filesExistStatus[index]) {
       return type + ": " + file + ": No such file or directory\n";
     }
-    return createHead(file) + fileContents[index] + "\n";
+    return createFileHeading(file) + fileContents[index] + "\n";
   });
 };
 
-const createHead = function(file) {
+const createFileHeading = function(file) {
   return "==> " + file + " <==\n";
 };
 
@@ -136,6 +136,6 @@ module.exports = {
   selectLastBytes,
   selectLastLines,
   head,
-  createHead,
+  createFileHeading,
   zipFileNameWithFileContent
 };

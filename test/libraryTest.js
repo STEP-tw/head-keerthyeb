@@ -10,7 +10,7 @@ const {
   extractBytes,
   head,
   zipFileNameWithFileContent,
-  createHead
+  createFileHeading
 } = require("../src/library.js");
 
 describe("Test for extractLines", function() {
@@ -78,11 +78,11 @@ describe("Test for zipFileNameWithFileContent", function() {
   });
 });
 
-describe("Test for createHead", function() {
+describe("Test for createFileHeading", function() {
   it("should return an heading like ==> heading <==\n when any text is given", function() {
-    deepEqual(createHead(""), "==>  <==\n");
-    deepEqual(createHead("1"), "==> 1 <==\n");
-    deepEqual(createHead("keerthy"), "==> keerthy <==\n");
+    deepEqual(createFileHeading(""), "==>  <==\n");
+    deepEqual(createFileHeading("1"), "==> 1 <==\n");
+    deepEqual(createFileHeading("keerthy"), "==> keerthy <==\n");
   });
 });
 
