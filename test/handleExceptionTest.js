@@ -1,21 +1,21 @@
 const {deepEqual} = require('assert');
 const {
-  handleHeadException,
-  handleTailException,
+  handleHeadError,
+  handleTailError,
   displayFileNotFoundError,
   isSingleFile,
   isValidOption,
 } = require('../src/handleException.js');
 
-describe('Test for handleHeadException', function() {
+describe('Test for handleHeadError', function() {
   it('should return empty if all arguments are valid ', function() {
     let fs = {
       existsSync: function(file) {
         return true;
       },
     };
-    deepEqual(handleHeadException(2, 'n', ['file1', 'file2'], fs), '');
-    deepEqual(handleHeadException(2, 'c', ['file'], fs), '');
+    deepEqual(handleHeadError(2, 'n', ['file1', 'file2'], fs), '');
+    deepEqual(handleHeadError(2, 'c', ['file'], fs), '');
   });
 
   it('should return illegal option message for illegal option ', function() {
@@ -27,7 +27,7 @@ describe('Test for handleHeadException', function() {
     let illegalOption = 'head: illegal option -- ';
     let usage = 'usage: head [-n lines | -c bytes] [file ...]';
     deepEqual(
-      handleHeadException(2, '-p', ['file1', 'file2'], fs),
+      handleHeadError(2, '-p', ['file1', 'file2'], fs),
       illegalOption + '-p\n' + usage,
     );
   });
@@ -40,7 +40,7 @@ describe('Test for handleHeadException', function() {
     };
     let illegalCountMsg = 'head: illegal byte count -- ';
     deepEqual(
-      handleHeadException(-2, 'c', ['file1', 'file2'], fs),
+      handleHeadError(-2, 'c', ['file1', 'file2'], fs),
       illegalCountMsg + '-2',
     );
   });
@@ -53,7 +53,7 @@ describe('Test for handleHeadException', function() {
     };
     let illegalCountMsg = 'head: illegal line count -- ';
     deepEqual(
-      handleHeadException(-2, 'n', ['file1', 'file2'], fs),
+      handleHeadError(-2, 'n', ['file1', 'file2'], fs),
       illegalCountMsg + '-2',
     );
   });
@@ -65,19 +65,19 @@ describe('Test for handleHeadException', function() {
       },
     };
     let error = 'head: file1: No such file or directory';
-    deepEqual(handleHeadException(2, 'n', ['file1'], fs), error);
+    deepEqual(handleHeadError(2, 'n', ['file1'], fs), error);
   });
 });
 
-describe('Test for handleTailException', function() {
+describe('Test for handleTailError', function() {
   it('should return empty if all arguments are valid ', function() {
     let fs = {
       existsSync: function(file) {
         return true;
       },
     };
-    deepEqual(handleTailException(2, 'n', ['file1', 'file2'], fs), '');
-    deepEqual(handleTailException(2, 'c', ['file'], fs), '');
+    deepEqual(handleTailError(2, 'n', ['file1', 'file2'], fs), '');
+    deepEqual(handleTailError(2, 'c', ['file'], fs), '');
   });
 
   it('should return illegal option message for illegal option ', function() {
@@ -90,7 +90,7 @@ describe('Test for handleTailException', function() {
     let usage =
       'usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]';
     deepEqual(
-      handleTailException(2, '-p', ['file1', 'file2'], fs),
+      handleTailError(2, '-p', ['file1', 'file2'], fs),
       illegalOption + '-p\n' + usage,
     );
   });
@@ -103,7 +103,7 @@ describe('Test for handleTailException', function() {
     };
     let illegalOffsetMsg = 'tail: illegal offset -- ';
     deepEqual(
-      handleTailException('p', 'c', ['file1', 'file2'], fs),
+      handleTailError('p', 'c', ['file1', 'file2'], fs),
       illegalOffsetMsg + 'p',
     );
   });
@@ -115,9 +115,9 @@ describe('Test for handleTailException', function() {
       },
     };
     let illegalOffsetMsg = 'tail: illegal offset -- ';
-    deepEqual(handleTailException('2', 'c', ['file1', 'file2'], fs), '');
-    deepEqual(handleTailException('-2', 'c', ['file1', 'file2'], fs), '');
-    deepEqual(handleTailException('0', 'c', ['file1', 'file2'], fs), '');
+    deepEqual(handleTailError('2', 'c', ['file1', 'file2'], fs), '');
+    deepEqual(handleTailError('-2', 'c', ['file1', 'file2'], fs), '');
+    deepEqual(handleTailError('0', 'c', ['file1', 'file2'], fs), '');
   });
 
   it('should return error msg if the file not exist ', function() {
@@ -127,7 +127,7 @@ describe('Test for handleTailException', function() {
       },
     };
     let error = 'tail: file1: No such file or directory';
-    deepEqual(handleTailException(2, 'n', ['file1'], fs), error);
+    deepEqual(handleTailError(2, 'n', ['file1'], fs), error);
   });
 });
 

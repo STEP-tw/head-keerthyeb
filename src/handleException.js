@@ -1,6 +1,6 @@
 const {isNatural} = require('./util.js');
 
-const handleHeadException = function(noOfLines, option, files, fs) {
+const handleHeadError = function(noOfLines, option, files, fs) {
   let illegalOption = 'head: illegal option -- ' + option;
   let usage = 'usage: head [-n lines | -c bytes] [file ...]';
   let illegalCount = {
@@ -20,7 +20,7 @@ const handleHeadException = function(noOfLines, option, files, fs) {
   return '';
 };
 
-const handleTailException = function(noOfLines, option, files, fs) {
+const handleTailError = function(noOfLines, option, files, fs) {
   let illegalOption = 'tail: illegal option -- ' + option;
   let usage = 'usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]';
   let illegalCount = 'tail: illegal offset -- ' + noOfLines;
@@ -54,8 +54,8 @@ const displayFileNotFoundError = function(option, fileName) {
 };
 
 module.exports = {
-  handleHeadException,
-  handleTailException,
+  handleHeadError,
+  handleTailError,
   isSingleFile,
   isFileExist,
   displayFileNotFoundError,

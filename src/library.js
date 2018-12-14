@@ -1,7 +1,7 @@
 const { isNatural } = require("./util.js");
 const {
-  handleHeadException,
-  handleTailException,
+  handleHeadError,
+  handleTailError,
   isFileExist,
   isSingleFile
 } = require("./handleException.js");
@@ -9,7 +9,7 @@ const { getParameters, classifyInputs } = require("./handleInput.js");
 
 const head = function(fs, args) {
   let headMethods = {
-    exceptionHandler: handleHeadException,
+    exceptionHandler: handleHeadError,
     extractor: extractFileContent,
     type: "head"
   };
@@ -18,7 +18,7 @@ const head = function(fs, args) {
 
 const tail = function(fs, args) {
   let tailMethods = {
-    exceptionHandler: handleTailException,
+    exceptionHandler: handleTailError,
     extractor: extractFileContentForTail,
     type: "tail"
   };
