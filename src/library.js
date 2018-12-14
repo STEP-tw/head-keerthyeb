@@ -9,8 +9,8 @@ const { getParameters, classifyInputs } = require("./handleInput.js");
 
 const head = function(fs, args) {
   let headMethods = {
-    exceptionHandler: handleHeadError,
-    extractor: extractFileContent,
+    errorHandler: handleHeadError,
+    contentExtractor: extractFileContent,
     type: "head"
   };
   return runCommand(fs, args, headMethods);
@@ -18,8 +18,8 @@ const head = function(fs, args) {
 
 const tail = function(fs, args) {
   let tailMethods = {
-    exceptionHandler: handleTailError,
-    extractor: extractFileContentForTail,
+    errorHandler: handleTailError,
+    contentExtractor: extractFileContentForTail,
     type: "tail"
   };
   return runCommand(fs, args, tailMethods);
@@ -27,13 +27,13 @@ const tail = function(fs, args) {
 
 const runCommand = function(fs, args, filterer) {
   let { option, numberOfLines, files } = classifyInputs(args);
-  let exception = filterer.exceptionHandler(numberOfLines, option, files, fs);
+  let exception = filterer.errorHandler(numberOfLines, option, files, fs);
   if (exception) {
     return exception;
   }
   let fileContents = files.map(file => readFile(fs, file));
   let extractedContent = fileContents.map(fileContent =>
-    filterer.extractor(fileContent, numberOfLines, option)
+    filterer.contentExtractor(fileContent, numberOfLines, option)
   );
   return getFormattedContent(files, extractedContent, fs, filterer.type);
 };
