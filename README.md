@@ -27,3 +27,6 @@ Tail Usage:
 10. node ./tail.js -c 5 file1
 11. node ./tail.js -c5 file1 file2
 12. node ./tail.js -c 5 file1 file2
+
+Usage : 
+./scripts/run_all_tests.sh

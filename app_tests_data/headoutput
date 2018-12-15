@@ -1,0 +1,132 @@
+hello
+hi
+bye
+call
+me
+hello
+hi
+bye
+call
+me
+hello
+hi
+bye
+call
+me
+==> ./data/words <==
+hello
+hi
+bye
+call
+me
+so
+far
+near
+read
+bool
+
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+==> ./data/words <==
+hello
+hi
+bye
+call
+me
+
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+4
+5
+==> ./data/words <==
+hello
+hi
+bye
+call
+me
+
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+4
+5
+==> ./data/words <==
+hello
+hi
+bye
+call
+me
+
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+4
+5
+hello
+hello
+==> ./data/words <==
+hello
+
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+==> ./data/words <==
+hello
+
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+head: illegal line count -- 0
+head: illegal byte count -- 0
+head: vkdal: No such file or directory
+head: vkdal: No such file or directory
+hello
+hi
+bye
+call
+me
+so
+far
+near
+read
+bool
+hello
+hi
+bye
+call
+me
+so
+far
+near
+read
+bool
+book
+==> ./data/words <==
+hello
+hi
+bye
+call
+me
+
+head: file: No such file or directory
+==> ./data/tenNumbers.txt <==
+1
+2
+3
+
+head: file: No such file or directory
