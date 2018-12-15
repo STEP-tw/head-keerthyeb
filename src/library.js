@@ -2,6 +2,7 @@ const { isNatural } = require("./util.js");
 const {
   handleHeadError,
   handleTailError,
+  displayFileNotFoundError,
   isFileExist,
   isSingleFile
 } = require("./handleException.js");
@@ -76,7 +77,7 @@ const zipFileNameWithFileContent = function(
 ) {
   return files.map(function(file, index) {
     if (!filesExistStatus[index]) {
-      return type + ": " + file + ": No such file or directory\n";
+      return displayFileNotFoundError(type, file)+'\n';
     }
     return createFileHeading(file) + fileContents[index] + "\n";
   });
