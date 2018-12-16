@@ -247,151 +247,88 @@ describe("Test for extractFileContentForTail", function() {
 
 describe("Test for tail function", function() {
   it("should return last 10 lines of the text if only file name is given ", function() {
-    let numbers = "1\n2\n3";
-    let fs = {
-      readFileSync: function(file) {
-        return file;
-      },
-      existsSync: function(file) {
-        return true;
-      }
-    };
-    assert.deepEqual(tail(fs, [numbers]), numbers);
+    let actualOutput = tail(fs, ["numbers"]);
+    let expectedOutput = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11].join("\n");
+    assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return last given number of lines of the text", function() {
-    let numbers = "1\n2\n3";
-    let fs = {
-      readFileSync: function(file) {
-        return file;
-      },
-      existsSync: function(file) {
-        return true;
-      }
-    };
-    assert.deepEqual(tail(fs, ["-5", numbers]), numbers);
-    assert.deepEqual(tail(fs, ["-1", numbers]), "3");
+    assert.deepEqual(tail(fs, ["-2", "numbers"]), "10\n11");
   });
 
-  it("should return last given number of lines of the text if the option 'n' is also given ", function() {
-    let numbers = "1\n2\n3";
-    let fs = {
-      readFileSync: function(file) {
-        return file;
-      },
-      existsSync: function(file) {
-        return true;
-      }
-    };
-    assert.deepEqual(tail(fs, ["-n1", numbers]), "3");
-    assert.deepEqual(tail(fs, ["-n5", numbers]), numbers);
-    assert.deepEqual(tail(fs, ["-n", 1, numbers]), "3");
-    assert.deepEqual(tail(fs, ["-n", 5, numbers]), numbers);
+  it("should return last given number of lines of the text if option and count is together ", function() {
+    assert.deepEqual(tail(fs, ["-n1", "numbers"]), "11");
   });
 
-  it("should return last given number of characters ", function() {
-    let numbers = "1\n2\n3";
-    let fs = {
-      readFileSync: function(file) {
-        return file;
-      },
-      existsSync: function(file) {
-        return true;
-      }
-    };
-    assert.deepEqual(tail(fs, ["-c1", numbers]), "3");
-    assert.deepEqual(tail(fs, ["-c", 1, numbers]), "3");
-    assert.deepEqual(tail(fs, ["-c", 9, numbers]), "1\n2\n3");
-    assert.deepEqual(tail(fs, ["-c9", numbers]), "1\n2\n3");
+  it("should return given number of lines if option and count are seperate", function() {
+    assert.deepEqual(tail(fs, ["-n", 1, "numbers"]), "11");
   });
 
-  it("should return last 10 lines of the 2 strings ", function() {
-    let numbers = "1\n2\n3\n";
-    let fs = {
-      readFileSync: function(file) {
-        return numbers;
-      },
-      existsSync: function(file) {
-        return true;
-      }
-    };
-    assert.deepEqual(
-      tail(fs, ["numbers", "numbers"]),
-      "==> numbers <==\n" + numbers + "\n\n==> numbers <==\n" + numbers
-    );
+  it("should return last given number of characters if option and count are together", function() {
+    assert.deepEqual(tail(fs, ["-c1", "numbers"]), "1");
   });
 
-  it("should return last given number of lines of the 2 strings ", function() {
-    let numbers = "1\n2\n3\n";
-    let fs = {
-      readFileSync: function(file) {
-        return numbers;
-      },
-      existsSync: function(file) {
-        return true;
-      }
-    };
-    assert.deepEqual(
-      tail(fs, ["-n5", "numbers", "numbers"]),
-      "==> numbers <==\n" + numbers + "\n\n==> numbers <==\n" + numbers
-    );
-    assert.deepEqual(
-      tail(fs, ["-5", "numbers", "numbers"]),
-      "==> numbers <==\n" + numbers + "\n\n==> numbers <==\n" + numbers
-    );
+  it("should return last given number of characters if option and count are seperated", function() {
+    assert.deepEqual(tail(fs, ["-c", 1, "numbers"]), "1");
   });
 
-  it("should return error message for missing files", function() {
-    let fs = {
-      readFileSync: function(file) {
-        return numbers;
-      },
-      existsSync: function(file) {
-        if (file == "numbers") {
-          return true;
-        }
-        return false;
-      }
-    };
-    let numbers = "1\n2\n3\n";
-    assert.deepEqual(
-      tail(fs, ["animals"]),
-      "tail: animals: No such file or directory"
-    );
-
-    assert.deepEqual(
-      tail(fs, ["numbers", "animals"]),
+  it("should return last 10 lines of the 2 files ", function() {
+    let actualOutput = tail(fs, ["numbers", "randomText"]);
+    let numbersOutput = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11].join("\n");
+    let expectedOutput =
       "==> numbers <==\n" +
-        numbers +
-        "\n\ntail: animals: No such file or directory"
-    );
-    assert.deepEqual(
-      tail(fs, ["numbers", "animals", "numbers"]),
-      "==> numbers <==\n" +
-        numbers +
-        "\n\ntail: animals: No such file or directory\n\n==> numbers <==\n" +
-        numbers
-    );
+      numbersOutput +
+      "\n\n==> randomText <==\n" +
+      files.randomText;
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return last given number of lines of the 2 files if only count is given", function() {
+    let actualOutput = tail(fs, ["-1", "numbers", "randomText"]);
+    let expectedOutput = "==> numbers <==\n11\n\n==> randomText <==\nrs";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return last given number of lines of 2 file if option is also given", function() {
+    let actualOutput = tail(fs, ["-n1", "numbers", "randomText"]);
+    let expectedOutput = "==> numbers <==\n11\n\n==> randomText <==\nrs";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return error message for missing file in the begining", function() {
+    let actualOutput = tail(fs, ["animals"]);
+    let expectedOutput = "tail: animals: No such file or directory";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return error message for missing file in the end", function() {
+    let actualOutput = tail(fs, ["-n1", "numbers", "animals"]);
+    let expectedOutput =
+      "==> numbers <==\n11\n\ntail: animals: No such file or directory";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return error message for missing file in the middle", function() {
+    let actualOutput = tail(fs, ["-n1", "numbers", "animals", "randomText"]);
+    let expectedOutput =
+      "==> numbers <==\n11\n\ntail: animals: No such file or directory\n\n==> randomText <==\nrs";
+    assert.deepEqual(actualOutput, expectedOutput);
   });
 });
 
 describe("Test for getFormattedContent", function() {
-  it("should return the output as head do", function() {
-    let fs = {
-      existsSync: function(file) {
-        if (file == "numbers") {
-          return true;
-        }
-        return false;
-      }
-    };
-    assert.deepEqual(
-      getFormattedContent(["numbers"], ["1\n2\n3\n"], fs),
-      "1\n2\n3\n"
+  it("should return only the content if only one file is given", function() {
+    let actualOutput = getFormattedContent(["numbers"], ["1"], fs);
+    assert.deepEqual(actualOutput, 1);
+  });
+
+  it("should return file name and content if 2 files are gievn", function() {
+    let actualOutput = getFormattedContent(
+      ["numbers", "randomText"],
+      ["1", "rs"],
+      fs
     );
-    assert.deepEqual(
-      getFormattedContent(["numbers", "numbers"], ["1", "1"], fs),
-      "==> numbers <==\n1\n\n==> numbers <==\n1"
-    );
+    let expectedOutput = "==> numbers <==\n1\n\n==> randomText <==\nrs";
+    assert.deepEqual(actualOutput, expectedOutput);
   });
 });
