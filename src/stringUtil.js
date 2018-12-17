@@ -13,7 +13,7 @@ const getTailLines = function(fileContent, numberOfLines) {
   }
   return fileContent
     .split("\n")
-    .slice(-numberOfLines)
+    .slice(-(Math.abs(numberOfLines)))
     .join("\n");
 };
 
@@ -30,7 +30,7 @@ const getLastNCharacters = function(fileContent, noOfBytes) {
   }
   return fileContent
     .split("")
-    .slice(-noOfBytes)
+    .slice(-(Math.abs(noOfBytes)))
     .join("");
 };
 
