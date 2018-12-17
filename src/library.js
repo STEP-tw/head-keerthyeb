@@ -1,4 +1,10 @@
-const { isNatural } = require("./util.js");
+const { isNatural } = require("./numbersUtil.js");
+const {
+  getHeadLines,
+  getTailLines,
+  getLastNCharacters,
+  getFirstNCharacters
+} = require("./stringUtil.js");
 const {
   handleHeadError,
   handleTailError,
@@ -28,7 +34,12 @@ const tail = function(fs, commandArguments) {
 
 const runCommand = function(fs, commandArguments, commandOperation) {
   let { option, numberOfLines, files } = classifyInputs(commandArguments);
-  let errorMessage = commandOperation.errorHandler(numberOfLines, option, files, fs);
+  let errorMessage = commandOperation.errorHandler(
+    numberOfLines,
+    option,
+    files,
+    fs
+  );
   if (errorMessage) {
     return errorMessage;
   }
@@ -36,7 +47,12 @@ const runCommand = function(fs, commandArguments, commandOperation) {
   let extractedContent = fileContents.map(fileContent =>
     commandOperation.contentExtractor(fileContent, numberOfLines, option)
   );
-  return getFormattedContent(files, extractedContent, fs, commandOperation.type);
+  return getFormattedContent(
+    files,
+    extractedContent,
+    fs,
+    commandOperation.type
+  );
 };
 
 const getFormattedContent = function(files, extractedContent, fs, type) {
@@ -55,8 +71,12 @@ const getFormattedContent = function(files, extractedContent, fs, type) {
   return contents.substring(startIndex, lastIndex);
 };
 
-const extractFileContent = function(fileContent, numberOfLines = 10, option = "n") {
-  const options = { n: extractLines, c: extractBytes };
+const extractFileContent = function(
+  fileContent,
+  numberOfLines = 10,
+  option = "n"
+) {
+  const options = { n: getHeadLines, c: getFirstNCharacters };
   return options[option](fileContent, numberOfLines);
 };
 
@@ -65,7 +85,7 @@ const extractFileContentForTail = function(
   numberOfLines = 10,
   option = "n"
 ) {
-  const options = { n: selectLastLines, c: selectLastBytes };
+  const options = { n: getTailLines, c: getLastNCharacters };
   return options[option](fileContent, numberOfLines);
 };
 
@@ -77,7 +97,7 @@ const zipFileNameWithFileContent = function(
 ) {
   return files.map(function(file, index) {
     if (!filesExistStatus[index]) {
-      return displayFileNotFoundError(type, file)+'\n';
+      return displayFileNotFoundError(type, file) + "\n";
     }
     return createFileHeading(file) + fileContents[index] + "\n";
   });
@@ -85,38 +105,6 @@ const zipFileNameWithFileContent = function(
 
 const createFileHeading = function(file) {
   return "==> " + file + " <==\n";
-};
-
-const extractLines = function(fileContent, numberOfLines) {
-  return fileContent
-    .split("\n")
-    .slice(0, numberOfLines)
-    .join("\n");
-};
-
-const selectLastLines = function(fileContent, numberOfLines) {
-  return fileContent
-    .split("\n")
-    .reverse()
-    .slice(0, numberOfLines)
-    .reverse()
-    .join("\n");
-};
-
-const extractBytes = function(fileContent, noOfBytes) {
-  return fileContent
-    .split("")
-    .slice(0, noOfBytes)
-    .join("");
-};
-
-const selectLastBytes = function(fileContent, noOfBytes) {
-  return fileContent
-    .split("")
-    .reverse()
-    .slice(0, noOfBytes)
-    .reverse()
-    .join("");
 };
 
 const readFile = function(fs, file) {
@@ -128,14 +116,10 @@ const readFile = function(fs, file) {
 
 module.exports = {
   extractFileContent,
-  extractLines,
   readFile,
-  extractBytes,
   tail,
   extractFileContentForTail,
   getFormattedContent,
-  selectLastBytes,
-  selectLastLines,
   head,
   createFileHeading,
   zipFileNameWithFileContent

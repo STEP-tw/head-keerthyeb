@@ -4,10 +4,6 @@ const {
   tail,
   getFormattedContent,
   extractFileContentForTail,
-  selectLastLines,
-  selectLastBytes,
-  extractLines,
-  extractBytes,
   head,
   zipFileNameWithFileContent,
   createFileHeading
@@ -28,35 +24,6 @@ const fs = {
     return files[file];
   }
 };
-
-describe("Test for extractLines", function() {
-  it("should return nothing for an empty string", function() {
-    let empty = "";
-    assert.deepEqual(extractLines(empty, 0), "");
-    assert.deepEqual(extractLines(empty, 1), "");
-  });
-
-  it("should return given number of lines from a given text", function() {
-    let numbers = "1\n2\n3";
-    assert.deepEqual(extractLines(numbers, 0), "");
-    assert.deepEqual(extractLines(numbers, 2), "1\n2");
-    assert.deepEqual(extractLines(numbers, 4), "1\n2\n3");
-  });
-});
-
-describe("Test for extractBytes", function() {
-  it("should return nothing for an empty string", function() {
-    let empty = "";
-    assert.deepEqual(extractBytes(empty, 0), "");
-    assert.deepEqual(extractBytes(empty, 1), "");
-  });
-
-  it("should return given number of bytes from a given text", function() {
-    let numbers = "1\n2\n3";
-    assert.deepEqual(extractBytes(numbers, 0), "");
-    assert.deepEqual(extractBytes(numbers, 2), "1\n");
-  });
-});
 
 describe("Test for extractFileContent", function() {
   describe("test for empty file", function() {
@@ -204,36 +171,6 @@ describe("Test for head function", function() {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 });
-
-describe("Test for selectLastLines", function() {
-  it("should return nothing for an empty string", function() {
-    let empty = "";
-    assert.deepEqual(selectLastLines(empty, 0), "");
-    assert.deepEqual(selectLastLines(empty, 1), "");
-  });
-
-  it("should return given number of last lines from a given text", function() {
-    let numbers = "1\n2\n3";
-    assert.deepEqual(selectLastLines(numbers, 0), "");
-    assert.deepEqual(selectLastLines(numbers, 2), "2\n3");
-    assert.deepEqual(selectLastLines(numbers, 4), "1\n2\n3");
-  });
-});
-
-describe("Test for selectLastBytes", function() {
-  it("should return nothing for an empty string", function() {
-    let empty = "";
-    assert.deepEqual(selectLastBytes(empty, 0), "");
-    assert.deepEqual(selectLastBytes(empty, 1), "");
-  });
-
-  it("should return given number of last bytes from a given text", function() {
-    let numbers = "1\n2\n3";
-    assert.deepEqual(selectLastBytes(numbers, 0), "");
-    assert.deepEqual(selectLastBytes(numbers, 2), "\n3");
-  });
-});
-
 describe("Test for extractFileContentForTail", function() {
   describe(" Test for default option -n and default numberOfLines 10", function() {
     it("should return the first 10 lines of the given text", function() {

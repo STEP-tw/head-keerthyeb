@@ -1,44 +1,44 @@
-const {isNatural} = require('./util.js');
+const { isNatural } = require("./numbersUtil.js");
 
 const handleHeadError = function(noOfLines, option, files, fs) {
-  let illegalOption = 'head: illegal option -- ' + option;
-  let usage = 'usage: head [-n lines | -c bytes] [file ...]';
+  let illegalOption = "head: illegal option -- " + option;
+  let usage = "usage: head [-n lines | -c bytes] [file ...]";
   let illegalCount = {
-    n: 'head: illegal line count -- ' + noOfLines,
-    c: 'head: illegal byte count -- ' + noOfLines,
+    n: "head: illegal line count -- " + noOfLines,
+    c: "head: illegal byte count -- " + noOfLines
   };
 
   if (!isValidOption(option)) {
-    return illegalOption + '\n' + usage;
+    return illegalOption + "\n" + usage;
   }
   if (!isNatural(noOfLines)) {
     return illegalCount[option];
   }
   if (isSingleFile(files) && !isFileExist(fs, files[0])) {
-    return displayFileNotFoundError('head', files[0]);
+    return displayFileNotFoundError("head", files[0]);
   }
-  return '';
+  return "";
 };
 
 const handleTailError = function(noOfLines, option, files, fs) {
-  let illegalOption = 'tail: illegal option -- ' + option;
-  let usage = 'usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]';
-  let illegalCount = 'tail: illegal offset -- ' + noOfLines;
+  let illegalOption = "tail: illegal option -- " + option;
+  let usage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+  let illegalCount = "tail: illegal offset -- " + noOfLines;
 
   if (!isValidOption(option)) {
-    return illegalOption + '\n' + usage;
+    return illegalOption + "\n" + usage;
   }
   if (isNaN(noOfLines)) {
     return illegalCount;
   }
   if (isSingleFile(files) && !isFileExist(fs, files[0])) {
-    return displayFileNotFoundError('tail', files[0]);
+    return displayFileNotFoundError("tail", files[0]);
   }
-  return '';
+  return "";
 };
 
 const isValidOption = function(option) {
-  return option == 'n' || option == 'c';
+  return option == "n" || option == "c";
 };
 
 const isSingleFile = function(files) {
@@ -50,7 +50,7 @@ const isFileExist = function(fs, file) {
 };
 
 const displayFileNotFoundError = function(option, fileName) {
-  return option + ': ' + fileName + ': No such file or directory';
+  return option + ": " + fileName + ": No such file or directory";
 };
 
 module.exports = {
@@ -59,5 +59,5 @@ module.exports = {
   isSingleFile,
   isFileExist,
   displayFileNotFoundError,
-  isValidOption,
+  isValidOption
 };
