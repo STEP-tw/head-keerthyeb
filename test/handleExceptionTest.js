@@ -3,6 +3,8 @@ const {
   handleHeadError,
   handleTailError,
   displayFileNotFoundError,
+  diplayIllegalCountError,
+  displayIllegalOptionError,
   isSingleFile,
   isValidOption
 } = require("../src/handleException.js");
@@ -86,7 +88,6 @@ describe("Test for handleTailError", function() {
   });
 
   it("should return nothing for legal count and negative numbers ", function() {
-    let illegalOffsetMsg = "tail: illegal offset -- ";
     let actualOutput = handleTailError(
       "-2",
       "c",
@@ -136,7 +137,7 @@ describe("Test for isValidOption", function() {
   });
 });
 
-describe("Test for displayFileNotFoundError", function() {
+describe("displayFileNotFoundError", function() {
   it("should return an error message for head if the file name is given", function() {
     fileName = "numbers";
     let actualOutput = displayFileNotFoundError("head", fileName);
@@ -147,6 +148,45 @@ describe("Test for displayFileNotFoundError", function() {
   it("should return error message for tail if the file name is given", function() {
     let actualOutput = displayFileNotFoundError("tail", fileName);
     let expectedOutput = "tail: " + fileName + ": No such file or directory";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+});
+
+describe("displayIllegalOptionError", function() {
+  it("should return an error message for head if the option is given", function() {
+    let usage = "usage: head [-n lines | -c bytes] [file ...]";
+    let illegalOption = "head: illegal option -- ";
+    let actualOutput = displayIllegalOptionError("head", "p");
+    let expectedOutput = illegalOption + "p\n" + usage;
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return error message for tail if the option is given", function() {
+    let usage =
+      "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+    let illegalOption = "tail: illegal option -- ";
+    let actualOutput = displayIllegalOptionError("tail", "p");
+    let expectedOutput = illegalOption + "p\n" + usage;
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+});
+
+describe("displayIllegalCountError", function() {
+  it("should return an error message for head if the count is given", function() {
+    let actualOutput = diplayIllegalCountError("head", -1, "n");
+    let expectedOutput = "head: illegal line count -- -1";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return an error message for head if the count is given for option 'c'", function() {
+    let actualOutput = diplayIllegalCountError("head", -1, "c");
+    let expectedOutput = "head: illegal byte count -- -1";
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
+  it("should return error message for tail if the count is given", function() {
+    let actualOutput = diplayIllegalCountError("tail", -2);
+    let expectedOutput = "tail: illegal offset -- -2";
     assert.deepEqual(actualOutput, expectedOutput);
   });
 });

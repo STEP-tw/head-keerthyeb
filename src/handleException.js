@@ -1,18 +1,11 @@
 const { isNatural } = require("./util/numbers.js");
 
-const handleHeadError = function(noOfLines, option, files, fs) {
-  let illegalOption = "head: illegal option -- " + option;
-  let usage = "usage: head [-n lines | -c bytes] [file ...]";
-  let illegalCount = {
-    n: "head: illegal line count -- " + noOfLines,
-    c: "head: illegal byte count -- " + noOfLines
-  };
-
+const handleHeadError = function(count, option, files, fs) {
   if (!isValidOption(option)) {
-    return illegalOption + "\n" + usage;
+    return displayIllegalOptionError("head", option);
   }
-  if (!isNatural(noOfLines)) {
-    return illegalCount[option];
+  if (!isNatural(count)) {
+    return diplayIllegalCountError("head", count, option);
   }
   if (isSingleFile(files) && !isFileExist(fs, files[0])) {
     return displayFileNotFoundError("head", files[0]);
@@ -20,17 +13,14 @@ const handleHeadError = function(noOfLines, option, files, fs) {
   return "";
 };
 
-const handleTailError = function(noOfLines, option, files, fs) {
-  let illegalOption = "tail: illegal option -- " + option;
-  let usage = "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
-  let illegalCount = "tail: illegal offset -- " + noOfLines;
-
+const handleTailError = function(count, option, files, fs) {
   if (!isValidOption(option)) {
-    return illegalOption + "\n" + usage;
+    return displayIllegalOptionError("tail", option);
   }
-  if (isNaN(noOfLines)) {
-    return illegalCount;
+  if (isNaN(count)) {
+    return diplayIllegalCountError("tail", count, option);
   }
+
   if (isSingleFile(files) && !isFileExist(fs, files[0])) {
     return displayFileNotFoundError("tail", files[0]);
   }
@@ -49,8 +39,29 @@ const isFileExist = function(fs, file) {
   return fs.existsSync(file);
 };
 
-const displayFileNotFoundError = function(option, fileName) {
-  return option + ": " + fileName + ": No such file or directory";
+const displayFileNotFoundError = function(command, fileName) {
+  return command + ": " + fileName + ": No such file or directory";
+};
+
+const displayIllegalOptionError = function(command, option) {
+  let usage = {
+    head: "usage: head [-n lines | -c bytes] [file ...]",
+    tail: "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
+  };
+  let illegalOption = command + ": illegal option -- " + option;
+  return illegalOption + "\n" + usage[command];
+};
+
+const diplayIllegalCountError = function(command, count, option) {
+  let options = {
+    n: "line",
+    c: "byte"
+  };
+  let error = {
+    head: "head: illegal " + options[option] + " count -- ",
+    tail: "tail: illegal offset -- "
+  };
+  return error[command] + count;
 };
 
 module.exports = {
@@ -59,5 +70,7 @@ module.exports = {
   isSingleFile,
   isFileExist,
   displayFileNotFoundError,
+  diplayIllegalCountError,
+  displayIllegalOptionError,
   isValidOption
 };
