@@ -9,9 +9,7 @@ const {
 } = require("../src/handleException.js");
 
 const files = {
-  randomText: ["ab", "cd", "ef", "gh", "ij", "jk", "lm", "no", "pq", "rs"].join(
-    "\n"
-  ),
+  randomText: "ab\ncd\nef\ngh\nij\njk\nlm\nno\npq\nrs",
   numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].join("\n")
 };
 

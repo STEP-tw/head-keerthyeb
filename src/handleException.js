@@ -1,9 +1,9 @@
-const { isNaturalNumber, isNotInteger } = require("./util/numbers.js");
+const { isNaturalNumber, isInteger } = require("./util/numbers.js");
 
 const handleError = function(count, option, files, command, fs) {
   let isValidCount = {
     head: isNaturalNumber,
-    tail: isNotInteger
+    tail: isInteger
   };
   if (!isValidOption(option)) {
     return displayIllegalOptionError(command, option);
@@ -50,7 +50,7 @@ const diplayIllegalCountError = function(command, count, option) {
     c: "byte"
   };
   let error = {
-    head: "head: illegal " + options[option] + " count -- ",
+    head: `head: illegal ${options[option]} count -- `,
     tail: "tail: illegal offset -- "
   };
   return error[command] + count;
