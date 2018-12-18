@@ -4,7 +4,7 @@ const {
   getLastNCharacters,
   getHeadLines,
   getTailLines
-} = require("../src/stringUtil.js");
+} = require("../../src/util/string.js");
 
 describe("Test for getFirstNCharacters", function() {
   it("should return nothing for an empty string", function() {

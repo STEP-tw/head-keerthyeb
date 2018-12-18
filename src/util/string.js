@@ -1,4 +1,4 @@
-const { isZero } = require("./numbersUtil.js");
+const { isZero } = require("./numbers.js");
 
 const getHeadLines = function(fileContent, numberOfLines) {
   return fileContent

@@ -1,4 +1,4 @@
-const { isNatural } = require("./numbersUtil.js");
+const { isNatural } = require("./util/numbers.js");
 
 const handleHeadError = function(noOfLines, option, files, fs) {
   let illegalOption = "head: illegal option -- " + option;

@@ -1,5 +1,5 @@
 const deepEqual = require("assert").deepEqual;
-const { isNatural, isZero } = require("../src/numbersUtil.js");
+const { isNatural, isZero } = require("../../src/util/numbers.js");
 
 describe("Test for isNatural", function() {
   it("should return true if option is valid", function() {

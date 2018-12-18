@@ -1,10 +1,10 @@
-const { isNatural } = require("./numbersUtil.js");
+const { isNatural } = require("./util/numbers.js");
 const {
   getHeadLines,
   getTailLines,
   getLastNCharacters,
   getFirstNCharacters
-} = require("./stringUtil.js");
+} = require("./util/string.js");
 const {
   handleHeadError,
   handleTailError,

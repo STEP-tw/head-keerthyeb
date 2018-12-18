@@ -1,4 +1,4 @@
-const { isNatural } = require("./numbersUtil.js");
+const { isNatural } = require("./util/numbers.js");
 
 const getParameters = function(args) {
   if (isNatural(args[0][1])) {
