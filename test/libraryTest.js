@@ -28,8 +28,7 @@ const fs = {
 describe("Test for extractFileContent", function() {
   describe("test for empty file", function() {
     it("should return nothing for an empty line", function() {
-      let empty = "";
-      assert.deepEqual(extractFileContent(empty), "");
+      assert.deepEqual(extractFileContent(""), "");
     });
   });
 
@@ -48,7 +47,6 @@ describe("Test for insertHeader", function() {
   });
 
   it("should return an empty array if first array is empty ", function() {
-    assert.deepEqual(insertHeader([], [1], []), []);
     assert.deepEqual(insertHeader([], ["cat"], []), []);
   });
 
@@ -70,9 +68,7 @@ describe("Test for insertHeader", function() {
 });
 
 describe("Test for formatText", function() {
-  it("should return an heading like ==> heading <==\n when any text is given", function() {
-    assert.deepEqual(formatText(""), "==>  <==\n");
-    assert.deepEqual(formatText("1"), "==> 1 <==\n");
+  it("should return an text like ==> text <==\n when any text is given", function() {
     assert.deepEqual(formatText("keerthy"), "==> keerthy <==\n");
   });
 });
@@ -90,24 +86,20 @@ describe("Test for head function", function() {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
-  it("should return first given number of lines of the text if option and number of lines are together", function() {
+  it("should return given number of lines of the text for attached option and count", function() {
     assert.deepEqual(head(fs, ["-n1", "numbers"]), "1");
-    assert.deepEqual(head(fs, ["-n5", "numbers"]), "1\n2\n3\n4\n5");
   });
 
-  it("should return given number of lines if option and number of lines are seperated by space ", function() {
+  it("should return given number of lines for separated option and count", function() {
     assert.deepEqual(head(fs, ["-n", 1, "numbers"]), "1");
-    assert.deepEqual(head(fs, ["-n", 5, "numbers"]), "1\n2\n3\n4\n5");
   });
 
-  it("should return first given number of characters ", function() {
+  it("should return first given number of characters for attached option and count", function() {
     assert.deepEqual(head(fs, ["-c1", "numbers"]), "1");
-    assert.deepEqual(head(fs, ["-c5", "numbers"]), "1\n2\n3");
   });
 
-  it("should return given number of bytes if option and number of bytes are seperated by space", function() {
+  it("should return given number of bytes for separated option and count", function() {
     assert.deepEqual(head(fs, ["-c", 1, "numbers"]), "1");
-    assert.deepEqual(head(fs, ["-c", 5, "numbers"]), "1\n2\n3");
   });
 
   it("should return first 10 lines of the 2 strings ", function() {
@@ -196,7 +188,7 @@ describe("Test for tail function", function() {
     assert.deepEqual(tail(fs, ["-2", "numbers"]), "10\n11");
   });
 
-  it("should return last given number of lines of the text if option and count is together ", function() {
+  it("should return last given number of lines for attached option and count ", function() {
     assert.deepEqual(tail(fs, ["-n1", "numbers"]), "11");
   });
 
@@ -204,11 +196,11 @@ describe("Test for tail function", function() {
     assert.deepEqual(tail(fs, ["-n", 1, "numbers"]), "11");
   });
 
-  it("should return last given number of characters if option and count are together", function() {
+  it("should return last given number of characters for attached option and count", function() {
     assert.deepEqual(tail(fs, ["-c1", "numbers"]), "1");
   });
 
-  it("should return last given number of characters if option and count are seperated", function() {
+  it("should return last given number of characters for seperated option and count", function() {
     assert.deepEqual(tail(fs, ["-c", 1, "numbers"]), "1");
   });
 
