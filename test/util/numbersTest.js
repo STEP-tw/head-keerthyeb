@@ -1,7 +1,7 @@
 const deepEqual = require("assert").deepEqual;
 const { isNatural, isZero } = require("../../src/util/numbers.js");
 
-describe("Test for isNatural", function() {
+describe("isNatural", function() {
   it("should return true if option is valid", function() {
     deepEqual(isNatural(4), true);
   });
@@ -13,7 +13,7 @@ describe("Test for isNatural", function() {
   });
 });
 
-describe("Test for isZero", function() {
+describe("isZero", function() {
   it("should return true if input is zero", function() {
     deepEqual(isZero(0), true);
   });

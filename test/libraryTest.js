@@ -25,14 +25,14 @@ const fs = {
   }
 };
 
-describe("Test for extractFileContent", function() {
-  describe("test for empty file", function() {
+describe("extractFileContent", function() {
+  describe("empty file", function() {
     it("should return nothing for an empty line", function() {
       assert.deepEqual(extractFileContent(""), "");
     });
   });
 
-  describe(" Test for default option -n and default numberOfLines 10", function() {
+  describe("for default option -n and default numberOfLines 10", function() {
     it("should return the first 10 lines of the given text", function() {
       let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].join("\n");
       let expectedOutput = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].join("\n");
@@ -41,7 +41,7 @@ describe("Test for extractFileContent", function() {
   });
 });
 
-describe("Test for insertHeader", function() {
+describe("insertHeader", function() {
   it("should return an empty array for 2 empty array ", function() {
     assert.deepEqual(insertHeader([], [], []), []);
   });
@@ -67,13 +67,13 @@ describe("Test for insertHeader", function() {
   });
 });
 
-describe("Test for formatText", function() {
+describe("formatText", function() {
   it("should return an text like ==> text <==\n when any text is given", function() {
     assert.deepEqual(formatText("keerthy"), "==> keerthy <==\n");
   });
 });
 
-describe("Test for head function", function() {
+describe("head function", function() {
   it("should return first 10 lines of the file if only file name is given", function() {
     let actualOutput = head(fs, ["numbers"]);
     let expectedOutput = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].join("\n");
@@ -166,8 +166,8 @@ describe("Test for head function", function() {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 });
-describe("Test for extractFileContentForTail", function() {
-  describe(" Test for default option -n and default numberOfLines 10", function() {
+describe("extractFileContentForTail", function() {
+  describe("for default option -n and default numberOfLines 10", function() {
     it("should return the first 10 lines of the given text", function() {
       let numbers = "1\n2";
       let empty = "";
@@ -177,7 +177,7 @@ describe("Test for extractFileContentForTail", function() {
   });
 });
 
-describe("Test for tail function", function() {
+describe("tail function", function() {
   it("should return last 10 lines of the text if only file name is given ", function() {
     let actualOutput = tail(fs, ["numbers"]);
     let expectedOutput = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11].join("\n");
@@ -248,7 +248,7 @@ describe("Test for tail function", function() {
   });
 });
 
-describe("Test for getFormattedContent", function() {
+describe("getFormattedContent", function() {
   it("should return only the content if only one file is given", function() {
     let actualOutput = getFormattedContent(["numbers"], ["1"], fs);
     assert.deepEqual(actualOutput, 1);

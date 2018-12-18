@@ -6,7 +6,7 @@ const {
   getTailLines
 } = require("../../src/util/string.js");
 
-describe("Test for getFirstNCharacters", function() {
+describe("getFirstNCharacters", function() {
   it("should return nothing for an empty string", function() {
     assert.deepEqual(getFirstNCharacters("", 1), "");
   });
@@ -17,7 +17,7 @@ describe("Test for getFirstNCharacters", function() {
   });
 });
 
-describe("Test for getHeadLines", function() {
+describe("getHeadLines", function() {
   it("should return nothing for an empty string", function() {
     assert.deepEqual(getHeadLines("", 1), "");
   });
@@ -28,7 +28,7 @@ describe("Test for getHeadLines", function() {
   });
 });
 
-describe("Test for getTailLines", function() {
+describe("getTailLines", function() {
   it("should return nothing for an empty string", function() {
     let empty = "";
     assert.deepEqual(getTailLines("", 1), "");
@@ -40,7 +40,7 @@ describe("Test for getTailLines", function() {
   });
 });
 
-describe("Test for getLastNCharacters", function() {
+describe("getLastNCharacters", function() {
   it("should return nothing for an empty string", function() {
     assert.deepEqual(getLastNCharacters("", 1), "");
   });
