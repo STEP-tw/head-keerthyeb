@@ -3,10 +3,13 @@ const { isNatural, isZero } = require("../src/numbersUtil.js");
 
 describe("Test for isNatural", function() {
   it("should return true if option is valid", function() {
-    deepEqual(isNatural(0), false);
-    deepEqual(isNatural("p"), false);
     deepEqual(isNatural(4), true);
+  });
+
+  it("should return return false if option is not a natural", function() {
+    deepEqual(isNatural("p"), false);
     deepEqual(isNatural(-1), false);
+    deepEqual(isNatural(0), false);
   });
 });
 
