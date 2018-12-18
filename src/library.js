@@ -99,11 +99,11 @@ const zipFileNameWithFileContent = function(
     if (!filesExistStatus[index]) {
       return displayFileNotFoundError(type, file) + "\n";
     }
-    return createFileHeading(file) + fileContents[index] + "\n";
+    return formatText(file) + fileContents[index] + "\n";
   });
 };
 
-const createFileHeading = function(file) {
+const formatText = function(file) {
   return "==> " + file + " <==\n";
 };
 
@@ -121,6 +121,6 @@ module.exports = {
   extractFileContentForTail,
   getFormattedContent,
   head,
-  createFileHeading,
+  formatText,
   zipFileNameWithFileContent
 };

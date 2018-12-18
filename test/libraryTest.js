@@ -6,7 +6,7 @@ const {
   extractFileContentForTail,
   head,
   zipFileNameWithFileContent,
-  createFileHeading
+  formatText
 } = require("../src/library.js");
 
 const files = {
@@ -69,11 +69,11 @@ describe("Test for zipFileNameWithFileContent", function() {
   });
 });
 
-describe("Test for createFileHeading", function() {
+describe("Test for formatText", function() {
   it("should return an heading like ==> heading <==\n when any text is given", function() {
-    assert.deepEqual(createFileHeading(""), "==>  <==\n");
-    assert.deepEqual(createFileHeading("1"), "==> 1 <==\n");
-    assert.deepEqual(createFileHeading("keerthy"), "==> keerthy <==\n");
+    assert.deepEqual(formatText(""), "==>  <==\n");
+    assert.deepEqual(formatText("1"), "==> 1 <==\n");
+    assert.deepEqual(formatText("keerthy"), "==> keerthy <==\n");
   });
 });
 
