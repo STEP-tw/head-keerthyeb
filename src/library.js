@@ -1,22 +1,21 @@
-const { isNatural } = require("./util/numbers.js");
 const {
   getHeadLines,
   getTailLines,
   getLastNCharacters,
   getFirstNCharacters
 } = require("./util/string.js");
+
 const {
-  handleHeadError,
-  handleTailError,
   displayFileNotFoundError,
+  handleError,
   isFileExist,
   isSingleFile
 } = require("./handleException.js");
-const { getParameters, classifyInputs } = require("./handleInput.js");
+
+const { classifyInputs } = require("./handleInput.js");
 
 const head = function(fs, commandArguments) {
   let headMethods = {
-    errorHandler: handleHeadError,
     contentExtractor: extractFileContent,
     type: "head"
   };
@@ -25,7 +24,6 @@ const head = function(fs, commandArguments) {
 
 const tail = function(fs, commandArguments) {
   let tailMethods = {
-    errorHandler: handleTailError,
     contentExtractor: extractFileContentForTail,
     type: "tail"
   };
@@ -34,10 +32,11 @@ const tail = function(fs, commandArguments) {
 
 const runCommand = function(fs, commandArguments, commandOperation) {
   let { option, numberOfLines, files } = classifyInputs(commandArguments);
-  let errorMessage = commandOperation.errorHandler(
+  let errorMessage = handleError(
     numberOfLines,
     option,
     files,
+    commandOperation.type,
     fs
   );
   if (errorMessage) {

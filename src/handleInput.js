@@ -1,7 +1,7 @@
-const { isNatural } = require("./util/numbers.js");
+const { isNaturalNumber } = require("./util/numbers.js");
 
 const getParameters = function(args) {
-  if (isNatural(args[0][1])) {
+  if (isNaturalNumber(args[0][1])) {
     return {
       option: "n",
       numberOfLines: args[0].slice(1),

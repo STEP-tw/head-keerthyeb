@@ -1,28 +1,20 @@
-const { isNatural } = require("./util/numbers.js");
+const { isNaturalNumber, isNotInteger } = require("./util/numbers.js");
 
-const handleHeadError = function(count, option, files, fs) {
+const handleError = function(count, option, files, command, fs) {
+  let isValidCount = {
+    head: isNaturalNumber,
+    tail: isNotInteger
+  };
   if (!isValidOption(option)) {
-    return displayIllegalOptionError("head", option);
+    return displayIllegalOptionError(command, option);
   }
-  if (!isNatural(count)) {
-    return diplayIllegalCountError("head", count, option);
-  }
-  if (isSingleFile(files) && !isFileExist(fs, files[0])) {
-    return displayFileNotFoundError("head", files[0]);
-  }
-  return "";
-};
 
-const handleTailError = function(count, option, files, fs) {
-  if (!isValidOption(option)) {
-    return displayIllegalOptionError("tail", option);
-  }
-  if (isNaN(count)) {
-    return diplayIllegalCountError("tail", count, option);
+  if (!isValidCount[command](count)) {
+    return diplayIllegalCountError(command, count, option);
   }
 
   if (isSingleFile(files) && !isFileExist(fs, files[0])) {
-    return displayFileNotFoundError("tail", files[0]);
+    return displayFileNotFoundError(command, files[0]);
   }
   return "";
 };
@@ -65,8 +57,7 @@ const diplayIllegalCountError = function(command, count, option) {
 };
 
 module.exports = {
-  handleHeadError,
-  handleTailError,
+  handleError,
   isSingleFile,
   isFileExist,
   displayFileNotFoundError,

@@ -1,15 +1,15 @@
 const deepEqual = require("assert").deepEqual;
-const { isNatural, isZero } = require("../../src/util/numbers.js");
+const { isNaturalNumber, isZero } = require("../../src/util/numbers.js");
 
 describe("isNatural", function() {
   it("should return true if option is valid", function() {
-    deepEqual(isNatural(4), true);
+    deepEqual(isNaturalNumber(4), true);
   });
 
   it("should return return false if option is not a natural", function() {
-    deepEqual(isNatural("p"), false);
-    deepEqual(isNatural(-1), false);
-    deepEqual(isNatural(0), false);
+    deepEqual(isNaturalNumber("p"), false);
+    deepEqual(isNaturalNumber(-1), false);
+    deepEqual(isNaturalNumber(0), false);
   });
 });
 

@@ -1,7 +1,6 @@
 const assert = require("assert");
 const {
-  handleHeadError,
-  handleTailError,
+  handleError,
   displayFileNotFoundError,
   diplayIllegalCountError,
   displayIllegalOptionError,
@@ -22,93 +21,121 @@ const fs = {
   }
 };
 
-describe("Test for handleHeadError", function() {
-  it("should return nothing if option 'n', count and file name are valid", function() {
-    assert.deepEqual(handleHeadError(2, "n", ["numbers"], fs), "");
-  });
+describe("handleError", function() {
+  describe("handle errors for head command", function() {
+    let command = "head";
+    it("should return nothing if option 'n', count and file name are valid", function() {
+      assert.deepEqual(handleError(2, "n", ["numbers"], command, fs), "");
+    });
 
-  it("should return nothing if option 'c', count and file name are valid ", function() {
-    assert.deepEqual(handleHeadError(2, "c", ["numbers"], fs), "");
-  });
+    it("should return nothing if option 'c', count and file name are valid ", function() {
+      assert.deepEqual(handleError(2, "c", ["numbers"], command, fs), "");
+    });
 
-  it("should return illegal option message for illegal option ", function() {
-    let illegalOption = "head: illegal option -- ";
-    let usage = "usage: head [-n lines | -c bytes] [file ...]";
-    let actualOutput = handleHeadError(2, "-p", ["numbers"], fs);
-    let expectedOutput = illegalOption + "-p\n" + usage;
-    assert.deepEqual(actualOutput, expectedOutput);
-  });
+    it("should return illegal option message for illegal option ", function() {
+      let illegalOption = "head: illegal option -- ";
+      let usage = "usage: head [-n lines | -c bytes] [file ...]";
+      let actualOutput = handleError(2, "-p", ["numbers"], command, fs);
+      let expectedOutput = illegalOption + "-p\n" + usage;
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
 
-  it("should return illegal byte count message for illegal count and option 'c' ", function() {
-    let illegalCountMsg = "head: illegal byte count -- ";
-    let actualOutput = handleHeadError(-2, "c", ["numbers"], fs);
-    let expectedOutput = illegalCountMsg + "-2";
-    assert.deepEqual(actualOutput, expectedOutput);
-  });
+    it("should return illegal byte count message for illegal count and option 'c' ", function() {
+      let illegalCountMsg = "head: illegal byte count -- ";
+      let actualOutput = handleError(-2, "c", ["numbers"], command, fs);
+      let expectedOutput = illegalCountMsg + "-2";
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
 
-  it("should return illegal line count message for illegal count and option 'n' ", function() {
-    let illegalCountMsg = "head: illegal line count -- ";
-    let actualOutput = handleHeadError(-2, "n", ["numbers"], fs);
-    let expectedOutput = illegalCountMsg + "-2";
-    assert.deepEqual(actualOutput, expectedOutput);
-  });
+    it("should return illegal line count message for illegal count and option 'n' ", function() {
+      let illegalCountMsg = "head: illegal line count -- ";
+      let actualOutput = handleError(-2, "n", ["numbers"], command, fs);
+      let expectedOutput = illegalCountMsg + "-2";
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
 
-  it("should return error msg if the file not exist ", function() {
-    let fileMissingError = "head: file1: No such file or directory";
-    let actualOutput = handleHeadError(2, "n", ["file1"], fs);
-    assert.deepEqual(actualOutput, fileMissingError);
+    it("should return error msg if the file not exist ", function() {
+      let fileMissingError = "head: file1: No such file or directory";
+      let actualOutput = handleError(2, "n", ["file1"], command, fs);
+      assert.deepEqual(actualOutput, fileMissingError);
+    });
+  });
+  describe("Handle errors for tail command", function() {
+    let command = "tail";
+    it("should return empty if all arguments are valid with option 'n' ", function() {
+      let actualOutput = handleError(
+        2,
+        "n",
+        ["numbers", "randomText"],
+        command,
+        fs
+      );
+      assert.deepEqual(actualOutput, "");
+    });
+
+    it("should return nothing if all arguments are valid with option 'c'", function() {
+      let actualOutput = handleError(2, "c", ["numbers"], command, fs);
+      assert.deepEqual(actualOutput, "");
+    });
+
+    it("should return illegal option message for illegal option ", function() {
+      let illegalOption = "tail: illegal option -- ";
+      let usage =
+        "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+      let actualOutput = handleError(
+        2,
+        "-p",
+        ["numbers", "randomText"],
+        command,
+        fs
+      );
+      let expectedOutput = illegalOption + "-p\n" + usage;
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
+
+    it("should return illegal offset message for illegal count ", function() {
+      let illegalOffsetMsg = "tail: illegal offset -- ";
+      let actualOutput = handleError(
+        "p",
+        "c",
+        ["numbers", "randomText"],
+        command,
+        fs
+      );
+      let expectedOutput = illegalOffsetMsg + "p";
+      assert.deepEqual(actualOutput, expectedOutput);
+    });
+
+    it("should return nothing for legal count and negative numbers ", function() {
+      let actualOutput = handleError(
+        "-2",
+        "c",
+        ["numbers", "randomText"],
+        command,
+        fs
+      );
+      assert.deepEqual(actualOutput, "");
+    });
+
+    it("should treat zero as a legal value", function() {
+      let actualOutput = handleError(
+        "0",
+        "c",
+        ["numbers", "randomText"],
+        command,
+        fs
+      );
+      assert.deepEqual(actualOutput, "");
+    });
+
+    it("should return error msg if the file not exist ", function() {
+      let error = "tail: file1: No such file or directory";
+      assert.deepEqual(handleError(2, "n", ["file1"], command, fs), error);
+    });
   });
 });
 
-describe("Test for handleTailError", function() {
-  it("should return empty if all arguments are valid with option 'n' ", function() {
-    let actualOutput = handleTailError(2, "n", ["numbers", "randomText"], fs);
-    assert.deepEqual(actualOutput, "");
-  });
-
-  it("should return nothing if all arguments are valid with option 'c'", function() {
-    let actualOutput = handleTailError(2, "c", ["numbers"], fs);
-    assert.deepEqual(actualOutput, "");
-  });
-
-  it("should return illegal option message for illegal option ", function() {
-    let illegalOption = "tail: illegal option -- ";
-    let usage =
-      "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
-    let actualOutput = handleTailError(2, "-p", ["numbers", "randomText"], fs);
-    let expectedOutput = illegalOption + "-p\n" + usage;
-    assert.deepEqual(actualOutput, expectedOutput);
-  });
-
-  it("should return illegal offset message for illegal count ", function() {
-    let illegalOffsetMsg = "tail: illegal offset -- ";
-    let actualOutput = handleTailError("p", "c", ["numbers", "randomText"], fs);
-    let expectedOutput = illegalOffsetMsg + "p";
-    assert.deepEqual(actualOutput, expectedOutput);
-  });
-
-  it("should return nothing for legal count and negative numbers ", function() {
-    let actualOutput = handleTailError(
-      "-2",
-      "c",
-      ["numbers", "randomText"],
-      fs
-    );
-    assert.deepEqual(actualOutput, "");
-  });
-
-  it("should treat zero as a legal value", function() {
-    let actualOutput = handleTailError("0", "c", ["numbers", "randomText"], fs);
-    assert.deepEqual(actualOutput, "");
-  });
-
-  it("should return error msg if the file not exist ", function() {
-    let error = "tail: file1: No such file or directory";
-    assert.deepEqual(handleTailError(2, "n", ["file1"], fs), error);
-  });
-});
-
-describe("Test for isSingleFile", function() {
+describe(" isSingleFile", function() {
   it("should return true  if the files array contain only one file", function() {
     assert.deepEqual(isSingleFile(["file"]), true);
   });
@@ -122,7 +149,7 @@ describe("Test for isSingleFile", function() {
   });
 });
 
-describe("Test for isValidOption", function() {
+describe(" isValidOption", function() {
   it("should return true if option is 'c'", function() {
     assert.deepEqual(isValidOption("c"), true);
   });

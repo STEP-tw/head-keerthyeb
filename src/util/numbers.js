@@ -1,9 +1,13 @@
-const isNatural = function(element) {
-  return element > 0 && !isNaN(element);
+const isNaturalNumber = function(element) {
+  return element > 0;
+};
+
+const isNotInteger = function(element) {
+  return !isNaN(element);
 };
 
 const isZero = function(element) {
   return element == 0;
 };
 
-module.exports = { isNatural, isZero };
+module.exports = { isNaturalNumber, isZero, isNotInteger };
