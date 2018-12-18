@@ -22,6 +22,7 @@ const fs = {
 describe("handleError", function() {
   describe("handle errors for head command", function() {
     let command = "head";
+
     it("should return nothing if option 'n', count and file name are valid", function() {
       assert.deepEqual(handleError(2, "n", ["numbers"], command, fs), "");
     });
@@ -58,8 +59,10 @@ describe("handleError", function() {
       assert.deepEqual(actualOutput, fileMissingError);
     });
   });
+
   describe("Handle errors for tail command", function() {
     let command = "tail";
+
     it("should return empty if all arguments are valid with option 'n' ", function() {
       let actualOutput = handleError(
         2,

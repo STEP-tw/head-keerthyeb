@@ -3,7 +3,6 @@ const {
   extractFileContent,
   tail,
   getFormattedContent,
-  extractFileContentForTail,
   head,
   insertHeader,
   formatText
@@ -28,15 +27,29 @@ const fs = {
 describe("extractFileContent", function() {
   describe("empty file", function() {
     it("should return nothing for an empty line", function() {
-      assert.deepEqual(extractFileContent(""), "");
+      let command = "head";
+      assert.deepEqual(extractFileContent(command, ""), "");
     });
   });
 
   describe("for default option -n and default numberOfLines 10", function() {
     it("should return the first 10 lines of the given text", function() {
+      let command = "head";
       let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].join("\n");
       let expectedOutput = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].join("\n");
-      assert.deepEqual(extractFileContent(numbers), expectedOutput);
+      assert.deepEqual(extractFileContent(command, numbers), expectedOutput);
+    });
+  });
+
+  describe("extractFileContent ForTail", function() {
+    describe("for default option -n and default numberOfLines 10", function() {
+      it("should return the first 10 lines of the given text", function() {
+        let command = "head";
+        let numbers = "1\n2";
+        let empty = "";
+        assert.deepEqual(extractFileContent(command, empty), "");
+        assert.deepEqual(extractFileContent(command, numbers), "1\n2");
+      });
     });
   });
 });
@@ -164,16 +177,6 @@ describe("head function", function() {
       1 +
       "\n\nhead: animals: No such file or directory\n\n==> randomText <==\nab";
     assert.deepEqual(actualOutput, expectedOutput);
-  });
-});
-describe("extractFileContentForTail", function() {
-  describe("for default option -n and default numberOfLines 10", function() {
-    it("should return the first 10 lines of the given text", function() {
-      let numbers = "1\n2";
-      let empty = "";
-      assert.deepEqual(extractFileContentForTail(empty), "");
-      assert.deepEqual(extractFileContentForTail(numbers), "1\n2");
-    });
   });
 });
 

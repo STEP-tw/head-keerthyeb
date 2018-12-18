@@ -16,7 +16,6 @@ const { classifyInputs } = require("./handleInput.js");
 
 const head = function(fs, commandArguments) {
   let headMethods = {
-    contentExtractor: extractFileContent,
     type: "head"
   };
   return runCommand(fs, commandArguments, headMethods);
@@ -24,7 +23,6 @@ const head = function(fs, commandArguments) {
 
 const tail = function(fs, commandArguments) {
   let tailMethods = {
-    contentExtractor: extractFileContentForTail,
     type: "tail"
   };
   return runCommand(fs, commandArguments, tailMethods);
@@ -44,7 +42,12 @@ const runCommand = function(fs, commandArguments, commandOperation) {
   }
   let fileContents = files.map(file => readFile(fs, file));
   let extractedContent = fileContents.map(fileContent =>
-    commandOperation.contentExtractor(fileContent, numberOfLines, option)
+    extractFileContent(
+      commandOperation.type,
+      fileContent,
+      numberOfLines,
+      option
+    )
   );
   return getFormattedContent(
     files,
@@ -71,21 +74,16 @@ const getFormattedContent = function(files, extractedContent, fs, type) {
 };
 
 const extractFileContent = function(
+  command,
   fileContent,
-  numberOfLines = 10,
+  count = 10,
   option = "n"
 ) {
-  const options = { n: getHeadLines, c: getFirstNCharacters };
-  return options[option](fileContent, numberOfLines);
-};
-
-const extractFileContentForTail = function(
-  fileContent,
-  numberOfLines = 10,
-  option = "n"
-) {
-  const options = { n: getTailLines, c: getLastNCharacters };
-  return options[option](fileContent, numberOfLines);
+  let commands = {
+    head: { n: getHeadLines, c: getFirstNCharacters },
+    tail: { n: getTailLines, c: getLastNCharacters }
+  };
+  return commands[command][option](fileContent, count);
 };
 
 const insertHeader = function(files, fileContents, filesExistStatus, type) {
@@ -112,7 +110,6 @@ module.exports = {
   extractFileContent,
   readFile,
   tail,
-  extractFileContentForTail,
   getFormattedContent,
   head,
   formatText,
