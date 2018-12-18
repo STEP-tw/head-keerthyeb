@@ -5,7 +5,7 @@ const {
   getFormattedContent,
   extractFileContentForTail,
   head,
-  zipFileNameWithFileContent,
+  insertHeader,
   formatText
 } = require("../src/library.js");
 
@@ -42,24 +42,24 @@ describe("Test for extractFileContent", function() {
   });
 });
 
-describe("Test for zipFileNameWithFileContent", function() {
+describe("Test for insertHeader", function() {
   it("should return an empty array for 2 empty array ", function() {
-    assert.deepEqual(zipFileNameWithFileContent([], [], []), []);
+    assert.deepEqual(insertHeader([], [], []), []);
   });
 
   it("should return an empty array if first array is empty ", function() {
-    assert.deepEqual(zipFileNameWithFileContent([], [1], []), []);
-    assert.deepEqual(zipFileNameWithFileContent([], ["cat"], []), []);
+    assert.deepEqual(insertHeader([], [1], []), []);
+    assert.deepEqual(insertHeader([], ["cat"], []), []);
   });
 
   it("should return an array which contain heading and contents ", function() {
     let expectedOutput = ["==> animal <==\ncat\n"];
-    let actualOutput = zipFileNameWithFileContent(["animal"], ["cat"], [true]);
+    let actualOutput = insertHeader(["animal"], ["cat"], [true]);
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return an array which contain heading and contents for multiple files", function() {
-    let expectedOutput = zipFileNameWithFileContent(
+    let expectedOutput = insertHeader(
       ["animal", "birds"],
       ["cat", "hen"],
       [true, true]

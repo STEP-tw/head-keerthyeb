@@ -60,7 +60,7 @@ const getFormattedContent = function(files, extractedContent, fs, type) {
     return extractedContent.join("");
   }
   let filesExistStatus = files.map(file => isFileExist(fs, file));
-  let contents = zipFileNameWithFileContent(
+  let contents = insertHeader(
     files,
     extractedContent,
     filesExistStatus,
@@ -89,12 +89,7 @@ const extractFileContentForTail = function(
   return options[option](fileContent, numberOfLines);
 };
 
-const zipFileNameWithFileContent = function(
-  files,
-  fileContents,
-  filesExistStatus,
-  type
-) {
+const insertHeader = function(files, fileContents, filesExistStatus, type) {
   return files.map(function(file, index) {
     if (!filesExistStatus[index]) {
       return displayFileNotFoundError(type, file) + "\n";
@@ -122,5 +117,5 @@ module.exports = {
   getFormattedContent,
   head,
   formatText,
-  zipFileNameWithFileContent
+  insertHeader
 };
