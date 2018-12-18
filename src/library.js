@@ -15,46 +15,24 @@ const {
 const { classifyInputs } = require("./handleInput.js");
 
 const head = function(fs, commandArguments) {
-  let headMethods = {
-    type: "head"
-  };
-  return runCommand(fs, commandArguments, headMethods);
+  return runCommand(fs, commandArguments, "head");
 };
 
 const tail = function(fs, commandArguments) {
-  let tailMethods = {
-    type: "tail"
-  };
-  return runCommand(fs, commandArguments, tailMethods);
+  return runCommand(fs, commandArguments, "tail");
 };
 
-const runCommand = function(fs, commandArguments, commandOperation) {
+const runCommand = function(fs, commandArguments, command) {
   let { option, numberOfLines, files } = classifyInputs(commandArguments);
-  let errorMessage = handleError(
-    numberOfLines,
-    option,
-    files,
-    commandOperation.type,
-    fs
-  );
+  let errorMessage = handleError(numberOfLines, option, files, command, fs);
   if (errorMessage) {
     return errorMessage;
   }
   let fileContents = files.map(file => readFile(fs, file));
   let extractedContent = fileContents.map(fileContent =>
-    extractFileContent(
-      commandOperation.type,
-      fileContent,
-      numberOfLines,
-      option
-    )
+    extractFileContent(command, fileContent, numberOfLines, option)
   );
-  return getFormattedContent(
-    files,
-    extractedContent,
-    fs,
-    commandOperation.type
-  );
+  return getFormattedContent(files, extractedContent, fs, command);
 };
 
 const getFormattedContent = function(files, extractedContent, fs, type) {
