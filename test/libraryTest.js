@@ -140,12 +140,15 @@ describe("Test for head function", function() {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
-  it("should return error message if file is not exist ", function() {
+  it("should return error message if file is not exist for option is 'n' ", function() {
     let actualOutput = head(fs, ["-n5", "names"]);
     let expectedOutput = "head: names: No such file or directory";
     assert.deepEqual(actualOutput, expectedOutput);
+  });
 
-    actualOutput = head(fs, ["-c5", "names"]);
+  it("should return error message if file is not exist for option is 'c'", function() {
+    let actualOutput = head(fs, ["-c5", "names"]);
+    let expectedOutput = "head: names: No such file or directory";
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
