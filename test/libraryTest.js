@@ -230,19 +230,20 @@ describe("tail function", function() {
   });
 });
 
-describe.skip("getFormattedContent", function() {
+describe("getFormattedContent", function() {
   it("should return only the content if only one file is given", function() {
-    let actualOutput = getFormattedContent(["numbers"], ["1"], fs);
-    assert.deepEqual(actualOutput, 1);
+    let arguments = [{ file: "numbers", content: 1, isExist: true }];
+    let actualOutput = getFormattedContent(arguments, "head");
+    assert.deepEqual(actualOutput, [1]);
   });
 
   it("should return file name and content if 2 files are gievn", function() {
-    let actualOutput = getFormattedContent(
-      ["numbers", "randomText"],
-      ["1", "rs"],
-      fs
-    );
-    let expectedOutput = "==> numbers <==\n1\n\n==> randomText <==\nrs";
+    let arguments = [
+      { file: "numbers", content: 1, isExist: true },
+      { file: "randomText", content: "rs", isExist: true }
+    ];
+    let actualOutput = getFormattedContent(arguments, "head");
+    let expectedOutput = ["==> numbers <==\n1\n", "==> randomText <==\nrs\n"];
     assert.deepEqual(actualOutput, expectedOutput);
   });
 });
