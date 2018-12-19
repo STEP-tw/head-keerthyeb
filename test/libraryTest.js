@@ -133,6 +133,14 @@ describe("head function", function() {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
+  it("should return illegal option message for illegal option ", function() {
+    let illegalOption = "head: illegal option -- ";
+    let usage = "usage: head [-n lines | -c bytes] [file ...]";
+    let actualOutput = head(["-p5", "names"], fs);
+    let expectedOutput = illegalOption + "p\n" + usage;
+    assert.deepEqual(actualOutput, expectedOutput);
+  });
+
   it("should return error message for missing files in the begining", function() {
     let actualOutput = head(["animals"], fs);
     let expectedOutput = "head: animals: No such file or directory\n";

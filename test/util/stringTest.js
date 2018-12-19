@@ -38,6 +38,11 @@ describe("getLastNLines", function() {
     let numbers = "1\n2\n3";
     assert.deepEqual(getLastNLines(numbers, 2), "2\n3");
   });
+
+  it("should return nothing if count is zero", function() {
+    let numbers = "1\n2\n3";
+    assert.deepEqual(getLastNLines(numbers, 0), "");
+  });
 });
 
 describe("getLastNCharacters", function() {
@@ -48,5 +53,10 @@ describe("getLastNCharacters", function() {
   it("should return given number of last bytes from a given text", function() {
     let numbers = "1\n2\n3";
     assert.deepEqual(getLastNCharacters(numbers, 2), "\n3");
+  });
+
+  it("should return nothing if count is zero", function() {
+    let numbers = "1\n2\n3";
+    assert.deepEqual(getLastNCharacters(numbers, 0), "");
   });
 });
