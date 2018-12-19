@@ -1,6 +1,6 @@
 const {
-  getHeadLines,
-  getTailLines,
+  getFirstNLines,
+  getLastNLines,
   getLastNCharacters,
   getFirstNCharacters
 } = require("./util/string.js");
@@ -65,8 +65,8 @@ const extractFileContent = function(
   option = "n"
 ) {
   let commands = {
-    head: { n: getHeadLines, c: getFirstNCharacters },
-    tail: { n: getTailLines, c: getLastNCharacters }
+    head: { n: getFirstNLines, c: getFirstNCharacters },
+    tail: { n: getLastNLines, c: getLastNCharacters }
   };
   return commands[command][option](fileContent, count);
 };

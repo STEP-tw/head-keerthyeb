@@ -1,19 +1,19 @@
 const { isZero } = require("./numbers.js");
 
-const getHeadLines = function(fileContent, numberOfLines) {
+const getFirstNLines = function(fileContent, numberOfLines) {
   return fileContent
     .split("\n")
     .slice(0, numberOfLines)
     .join("\n");
 };
 
-const getTailLines = function(fileContent, numberOfLines) {
+const getLastNLines = function(fileContent, numberOfLines) {
   if (isZero(numberOfLines)) {
     return "";
   }
   return fileContent
     .split("\n")
-    .slice(-(Math.abs(numberOfLines)))
+    .slice(-Math.abs(numberOfLines))
     .join("\n");
 };
 
@@ -30,13 +30,13 @@ const getLastNCharacters = function(fileContent, noOfBytes) {
   }
   return fileContent
     .split("")
-    .slice(-(Math.abs(noOfBytes)))
+    .slice(-Math.abs(noOfBytes))
     .join("");
 };
 
 module.exports = {
   getFirstNCharacters,
-  getHeadLines,
+  getFirstNLines,
   getLastNCharacters,
-  getTailLines
+  getLastNLines
 };

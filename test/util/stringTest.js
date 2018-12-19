@@ -2,8 +2,8 @@ const assert = require("assert");
 const {
   getFirstNCharacters,
   getLastNCharacters,
-  getHeadLines,
-  getTailLines
+  getFirstNLines,
+  getLastNLines
 } = require("../../src/util/string.js");
 
 describe("getFirstNCharacters", function() {
@@ -17,26 +17,26 @@ describe("getFirstNCharacters", function() {
   });
 });
 
-describe("getHeadLines", function() {
+describe("getFirstNLines", function() {
   it("should return nothing for an empty string", function() {
-    assert.deepEqual(getHeadLines("", 1), "");
+    assert.deepEqual(getFirstNLines("", 1), "");
   });
 
   it("should return given number of lines from a given text", function() {
     let numbers = "1\n2\n3";
-    assert.deepEqual(getHeadLines(numbers, 2), "1\n2");
+    assert.deepEqual(getFirstNLines(numbers, 2), "1\n2");
   });
 });
 
-describe("getTailLines", function() {
+describe("getLastNLines", function() {
   it("should return nothing for an empty string", function() {
     let empty = "";
-    assert.deepEqual(getTailLines("", 1), "");
+    assert.deepEqual(getLastNLines("", 1), "");
   });
 
   it("should return given number of last lines from a given text", function() {
     let numbers = "1\n2\n3";
-    assert.deepEqual(getTailLines(numbers, 2), "2\n3");
+    assert.deepEqual(getLastNLines(numbers, 2), "2\n3");
   });
 });
 
