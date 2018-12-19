@@ -23,12 +23,12 @@ const tail = function(commandArguments, fs) {
 };
 
 const runCommand = function(fs, commandArguments, command) {
-  let { option, numberOfLines, files } = classifyInputs(commandArguments);
+  let { option, numberOfLines, fileNames } = classifyInputs(commandArguments);
   let errorMessage = handleError(numberOfLines, option, command);
   if (errorMessage) {
     return errorMessage;
   }
-  let fileDetails = files.map(file => getFileDetails(fs, file));
+  let fileDetails = fileNames.map(fileName => getFileDetails(fs, fileName));
   fileDetails = fileDetails.map(fileDetail => {
     let content = extractFileContent(
       command,
@@ -37,7 +37,7 @@ const runCommand = function(fs, commandArguments, command) {
       option
     );
     let formatedDetails = {
-      file: fileDetail.file,
+      fileName: fileDetail.fileName,
       content,
       isExist: fileDetail.isExist
     };
@@ -52,9 +52,9 @@ const getFormattedContent = function(fileDetails, type) {
       if (isSingleFile(fileDetails)) {
         return fileDetail.content;
       }
-      return formatText(fileDetail.file) + fileDetail.content + "\n";
+      return formatText(fileDetail.fileName) + fileDetail.content + "\n";
     }
-    return displayFileNotFoundError(type, fileDetail.file) + "\n";
+    return displayFileNotFoundError(type, fileDetail.fileName) + "\n";
   });
 };
 
@@ -71,27 +71,27 @@ const extractFileContent = function(
   return commands[command][option](fileContent, count);
 };
 
-const formatText = function(file) {
-  return "==> " + file + " <==\n";
+const formatText = function(fileName) {
+  return "==> " + fileName + " <==\n";
 };
 
-const getFileDetails = function(fs, file) {
+const getFileDetails = function(fs, fileName) {
   let fileDetails = {
-    file: file,
-    content: readFileContent(fs, file),
+    fileName: fileName,
+    content: readFileContent(fs, fileName),
     isExist: true
   };
-  if (!isFileExist(fs, file)) {
+  if (!isFileExist(fs, fileName)) {
     fileDetails.isExist = false;
   }
   return fileDetails;
 };
 
-const readFileContent = function(fs, file) {
-  if (!isFileExist(fs, file)) {
+const readFileContent = function(fs, fileName) {
+  if (!isFileExist(fs, fileName)) {
     return "";
   }
-  return fs.readFileSync(file, "UTF8");
+  return fs.readFileSync(fileName, "UTF8");
 };
 
 module.exports = {

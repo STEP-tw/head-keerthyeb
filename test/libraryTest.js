@@ -232,15 +232,15 @@ describe("tail function", function() {
 
 describe("getFormattedContent", function() {
   it("should return only the content if only one file is given", function() {
-    let arguments = [{ file: "numbers", content: 1, isExist: true }];
+    let arguments = [{ fileName: "numbers", content: 1, isExist: true }];
     let actualOutput = getFormattedContent(arguments, "head");
     assert.deepEqual(actualOutput, [1]);
   });
 
   it("should return file name and content if 2 files are gievn", function() {
     let arguments = [
-      { file: "numbers", content: 1, isExist: true },
-      { file: "randomText", content: "rs", isExist: true }
+      { fileName: "numbers", content: 1, isExist: true },
+      { fileName: "randomText", content: "rs", isExist: true }
     ];
     let actualOutput = getFormattedContent(arguments, "head");
     let expectedOutput = ["==> numbers <==\n1\n", "==> randomText <==\nrs\n"];

@@ -8,7 +8,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 5,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -23,7 +23,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 10,
-        files: ["file.txt", "file2.txt", "file3.txt"]
+        fileNames: ["file.txt", "file2.txt", "file3.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -33,7 +33,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 1,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -43,7 +43,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 10,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -53,7 +53,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: -1,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -63,7 +63,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "c",
         numberOfLines: 1,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -73,7 +73,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "c",
         numberOfLines: 1,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -83,7 +83,7 @@ describe("getParameters", function() {
       let expectedOutput = {
         option: "c",
         numberOfLines: 1,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -97,7 +97,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 10,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -107,7 +107,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 10,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -117,7 +117,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 5,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -132,7 +132,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 10,
-        files: ["file.txt", "file2.txt", "file3.txt"]
+        fileNames: ["file.txt", "file2.txt", "file3.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -142,7 +142,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 1,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -152,7 +152,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: 10,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -162,7 +162,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "n",
         numberOfLines: -1,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -172,7 +172,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "c",
         numberOfLines: 1,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -182,7 +182,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "c",
         numberOfLines: 1,
-        files: ["file.txt"]
+        fileNames: ["file.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
@@ -192,7 +192,7 @@ describe("classifyInputs", function() {
       let expectedOutput = {
         option: "c",
         numberOfLines: 1,
-        files: ["file.txt", "file2.txt"]
+        fileNames: ["file.txt", "file2.txt"]
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
