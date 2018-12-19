@@ -1,4 +1,7 @@
-Head Usage:
+# Usage : 
+./scripts/run_all_tests.sh
+
+# Head Usage:
 
 1.  node ./head.js file1
 2.  node ./head.js -n5 file1
@@ -13,7 +16,7 @@ Head Usage:
 11. node ./head.js -c5 file1 file2
 12. node ./head.js -c 5 file1 file2
 
-Tail Usage:
+# Tail Usage:
 
 1.  node ./tail.js file1
 2.  node ./tail.js -n5 file1
@@ -28,5 +31,3 @@ Tail Usage:
 11. node ./tail.js -c5 file1 file2
 12. node ./tail.js -c 5 file1 file2
 
-Usage : 
-./scripts/run_all_tests.sh
