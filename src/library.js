@@ -78,7 +78,7 @@ const formatText = function(file) {
 const getFileDetails = function(fs, file) {
   let fileDetails = {
     file: file,
-    content: readFile(fs, file),
+    content: readFileContent(fs, file),
     isExist: true
   };
   if (!isFileExist(fs, file)) {
@@ -87,7 +87,7 @@ const getFileDetails = function(fs, file) {
   return fileDetails;
 };
 
-const readFile = function(fs, file) {
+const readFileContent = function(fs, file) {
   if (!isFileExist(fs, file)) {
     return "";
   }
@@ -96,7 +96,6 @@ const readFile = function(fs, file) {
 
 module.exports = {
   extractFileContent,
-  readFile,
   tail,
   getFormattedContent,
   head,
