@@ -24,7 +24,7 @@ const tail = function(commandArguments, fs) {
 
 const runCommand = function(fs, commandArguments, command) {
   let { option, numberOfLines, files } = classifyInputs(commandArguments);
-  let errorMessage = handleError(numberOfLines, option, files, command, fs);
+  let errorMessage = handleError(numberOfLines, option, command);
   if (errorMessage) {
     return errorMessage;
   }

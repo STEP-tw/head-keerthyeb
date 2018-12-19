@@ -1,6 +1,6 @@
 const { isNaturalNumber, isInteger } = require("./util/numbers.js");
 
-const handleError = function(count, option, files, command, fs) {
+const handleError = function(count, option, command) {
   let isValidCount = {
     head: isNaturalNumber,
     tail: isInteger
