@@ -28,27 +28,34 @@ const runCommand = function(fs, commandArguments, command) {
   if (errorMessage) {
     return errorMessage;
   }
-  let fileContents = files.map(file => readFile(fs, file));
-  let extractedContent = fileContents.map(fileContent =>
-    extractFileContent(command, fileContent, numberOfLines, option)
-  );
-  return getFormattedContent(files, extractedContent, fs, command);
+  let fileDetails = files.map(file => getFileDetails(fs, file));
+  fileDetails = fileDetails.map(fileDetail => {
+    let content = extractFileContent(
+      command,
+      fileDetail.content,
+      numberOfLines,
+      option
+    );
+    let formatedDetails = {
+      file: fileDetail.file,
+      content,
+      isExist: fileDetail.isExist
+    };
+    return formatedDetails;
+  });
+  return getFormattedContent(fileDetails, command).join("\n");
 };
 
-const getFormattedContent = function(files, extractedContent, fs, type) {
-  if (isSingleFile(files)) {
-    return extractedContent.join("");
-  }
-  let filesExistStatus = files.map(file => isFileExist(fs, file));
-  let contents = insertHeader(
-    files,
-    extractedContent,
-    filesExistStatus,
-    type
-  ).join("\n");
-  let startIndex = 0;
-  let lastIndex = contents.lastIndexOf("\n");
-  return contents.substring(startIndex, lastIndex);
+const getFormattedContent = function(fileDetails, type) {
+  return fileDetails.map(function(fileDetail) {
+    if (fileDetail.isExist) {
+      if (isSingleFile(fileDetails)) {
+        return fileDetail.content;
+      }
+      return formatText(fileDetail.file) + fileDetail.content + "\n";
+    }
+    return displayFileNotFoundError(type, fileDetail.file) + "\n";
+  });
 };
 
 const extractFileContent = function(
@@ -64,17 +71,20 @@ const extractFileContent = function(
   return commands[command][option](fileContent, count);
 };
 
-const insertHeader = function(files, fileContents, filesExistStatus, type) {
-  return files.map(function(file, index) {
-    if (!filesExistStatus[index]) {
-      return displayFileNotFoundError(type, file) + "\n";
-    }
-    return formatText(file) + fileContents[index] + "\n";
-  });
-};
-
 const formatText = function(file) {
   return "==> " + file + " <==\n";
+};
+
+const getFileDetails = function(fs, file) {
+  let fileDetails = {
+    file: file,
+    content: readFile(fs, file),
+    isExist: true
+  };
+  if (!isFileExist(fs, file)) {
+    fileDetails.isExist = false;
+  }
+  return fileDetails;
 };
 
 const readFile = function(fs, file) {
@@ -90,6 +100,5 @@ module.exports = {
   tail,
   getFormattedContent,
   head,
-  formatText,
-  insertHeader
+  formatText
 };

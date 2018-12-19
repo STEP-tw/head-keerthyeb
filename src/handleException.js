@@ -13,9 +13,6 @@ const handleError = function(count, option, files, command, fs) {
     return diplayIllegalCountError(command, count, option);
   }
 
-  if (isSingleFile(files) && !isFileExist(fs, files[0])) {
-    return displayFileNotFoundError(command, files[0]);
-  }
   return "";
 };
 

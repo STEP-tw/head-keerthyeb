@@ -52,12 +52,6 @@ describe("handleError", function() {
       let expectedOutput = illegalCountMsg + "-2";
       assert.deepEqual(actualOutput, expectedOutput);
     });
-
-    it("should return error msg if the file not exist ", function() {
-      let fileMissingError = "head: file1: No such file or directory";
-      let actualOutput = handleError(2, "n", ["file1"], command, fs);
-      assert.deepEqual(actualOutput, fileMissingError);
-    });
   });
 
   describe("Handle errors for tail command", function() {
@@ -127,11 +121,6 @@ describe("handleError", function() {
         fs
       );
       assert.deepEqual(actualOutput, "");
-    });
-
-    it("should return error msg if the file not exist ", function() {
-      let error = "tail: file1: No such file or directory";
-      assert.deepEqual(handleError(2, "n", ["file1"], command, fs), error);
     });
   });
 });
