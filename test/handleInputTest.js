@@ -1,5 +1,9 @@
 const assert = require("assert");
-const { getParameters, classifyInputs } = require("../src/handleInput.js");
+const {
+  getParameters,
+  classifyInputs,
+  isOptionOnly
+} = require("../src/handleInput.js");
 
 describe("getParameters", function() {
   describe("should return an object which includes option, numberOfLines and file names", function() {
@@ -196,5 +200,22 @@ describe("classifyInputs", function() {
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
+  });
+});
+
+describe("isOptionOnly", function() {
+  it("should return true if option and count are seperate", function() {
+    let actualOutput = isOptionOnly("-n");
+    assert.deepEqual(actualOutput, true);
+  });
+
+  it("should return false if argument contain number", function() {
+    let actualOutput = isOptionOnly("-n5");
+    assert.deepEqual(actualOutput, false);
+  });
+
+  it("should return false if argument doesn't contain option", function() {
+    let actualOutput = isOptionOnly("-5");
+    assert.deepEqual(actualOutput, false);
   });
 });

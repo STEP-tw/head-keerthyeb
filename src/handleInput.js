@@ -1,24 +1,25 @@
 const { isNaturalNumber } = require("./util/numbers.js");
 
 const getParameters = function(args) {
-  if (isNaturalNumber(args[0][1])) {
+  let firstArg = args[0];
+  if (isNaturalNumber(firstArg[1])) {
     return {
       option: "n",
-      numberOfLines: args[0].slice(1),
+      numberOfLines: firstArg.slice(1),
       fileNames: args.slice(1)
     };
   }
 
-  if (args[0].length == 2 && isNaN(args[0][1])) {
+  if (isOptionOnly(firstArg)) {
     return {
-      option: args[0][1],
+      option: firstArg[1],
       numberOfLines: args[1],
       fileNames: args.slice(2)
     };
   }
   return {
-    option: args[0][1],
-    numberOfLines: args[0].slice(2),
+    option: firstArg[1],
+    numberOfLines: firstArg.slice(2),
     fileNames: args.slice(1)
   };
 };
@@ -31,4 +32,8 @@ const classifyInputs = function(args) {
   return { option: "n", numberOfLines: 10, fileNames: args };
 };
 
-module.exports = { getParameters, classifyInputs };
+const isOptionOnly = function(arg) {
+  return arg.length == 2 && isNaN(arg);
+};
+
+module.exports = { getParameters, classifyInputs, isOptionOnly };
