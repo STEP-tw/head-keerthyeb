@@ -62,35 +62,35 @@ describe("formatText", function() {
 
 describe("head function", function() {
   it("should return first 10 lines of the file if only file name is given", function() {
-    let actualOutput = head(fs, ["numbers"]);
+    let actualOutput = head(["numbers"], fs);
     let expectedOutput = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].join("\n");
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return first given number of lines of the file", function() {
-    let actualOutput = head(fs, ["-5", "numbers"]);
+    let actualOutput = head(["-5", "numbers"], fs);
     let expectedOutput = [1, 2, 3, 4, 5].join("\n");
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return given number of lines of the text for attached option and count", function() {
-    assert.deepEqual(head(fs, ["-n1", "numbers"]), "1");
+    assert.deepEqual(head(["-n1", "numbers"], fs), "1");
   });
 
   it("should return given number of lines for separated option and count", function() {
-    assert.deepEqual(head(fs, ["-n", 1, "numbers"]), "1");
+    assert.deepEqual(head(["-n", 1, "numbers"], fs), "1");
   });
 
   it("should return first given number of characters for attached option and count", function() {
-    assert.deepEqual(head(fs, ["-c1", "numbers"]), "1");
+    assert.deepEqual(head(["-c1", "numbers"], fs), "1");
   });
 
   it("should return given number of bytes for separated option and count", function() {
-    assert.deepEqual(head(fs, ["-c", 1, "numbers"]), "1");
+    assert.deepEqual(head(["-c", 1, "numbers"], fs), "1");
   });
 
   it("should return first 10 lines of the 2 strings ", function() {
-    let actualOutput = head(fs, ["numbers", "randomText"]);
+    let actualOutput = head(["numbers", "randomText"], fs);
     let numbersOutput = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].join("\n");
     let expectedOutput =
       "==> numbers <==\n" +
@@ -102,7 +102,7 @@ describe("head function", function() {
   });
 
   it("should return first given number of lines of the 2 strings ", function() {
-    let actualOutput = head(fs, ["-n", 5, "numbers", "randomText"]);
+    let actualOutput = head(["-n", 5, "numbers", "randomText"], fs);
     let numbersOutput = [1, 2, 3, 4, 5].join("\n");
     let randomTextOutput = ["ab", "cd", "ef", "gh", "ij"].join("\n");
     let expectedOutput =
@@ -115,32 +115,32 @@ describe("head function", function() {
   });
 
   it("should return first given number of characters of the 2 strings ", function() {
-    let actualOutput = head(fs, ["-c", 5, "numbers", "randomText"]);
+    let actualOutput = head(["-c", 5, "numbers", "randomText"], fs);
     let expectedOutput =
       "==> numbers <==\n1\n2\n3" + "\n\n==> randomText <==\nab\ncd\n";
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return error message if file is not exist for option is 'n' ", function() {
-    let actualOutput = head(fs, ["-n5", "names"]);
+    let actualOutput = head(["-n5", "names"], fs);
     let expectedOutput = "head: names: No such file or directory\n";
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return error message if file is not exist for option is 'c'", function() {
-    let actualOutput = head(fs, ["-c5", "names"]);
+    let actualOutput = head(["-c5", "names"], fs);
     let expectedOutput = "head: names: No such file or directory\n";
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return error message for missing files in the begining", function() {
-    let actualOutput = head(fs, ["animals"]);
+    let actualOutput = head(["animals"], fs);
     let expectedOutput = "head: animals: No such file or directory\n";
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
   it("should return error mesaage for missing file at the end", function() {
-    let actualOutput = head(fs, ["-n1", "numbers", "animals"]);
+    let actualOutput = head(["-n1", "numbers", "animals"], fs);
     let expectedOutput =
       "==> numbers <==\n" +
       1 +
@@ -149,7 +149,7 @@ describe("head function", function() {
   });
 
   it("should return error message for missing file in the middle", function() {
-    let actualOutput = head(fs, ["-n1", "numbers", "animals", "randomText"]);
+    let actualOutput = head(["-n1", "numbers", "animals", "randomText"], fs);
     let expectedOutput =
       "==> numbers <==\n" +
       1 +

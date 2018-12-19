@@ -14,7 +14,7 @@ const {
 
 const { classifyInputs } = require("./handleInput.js");
 
-const head = function(fs, commandArguments) {
+const head = function(commandArguments, fs) {
   return runCommand(fs, commandArguments, "head");
 };
 
