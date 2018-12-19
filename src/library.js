@@ -18,7 +18,7 @@ const head = function(commandArguments, fs) {
   return runCommand(fs, commandArguments, "head");
 };
 
-const tail = function(fs, commandArguments) {
+const tail = function(commandArguments, fs) {
   return runCommand(fs, commandArguments, "tail");
 };
 
