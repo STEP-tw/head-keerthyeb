@@ -1,0 +1,26 @@
+{
+  "name": "keerthy",
+  "version": "1.0.0",
+  "description": "./scripts/run_all_tests.sh",
+  "main": "head.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "./scripts/run_all_tests.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/head-keerthyeb.git"
+  },
+  "author": "keerthy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/head-keerthyeb/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/head-keerthyeb#readme"
+}

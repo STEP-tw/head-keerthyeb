@@ -1,2 +1,6 @@
 .*.sw?
 .nyc_output
+.actual_out
+app_tests_data/tailInput
+app_tests_data/tailOutput
+node_modules/
