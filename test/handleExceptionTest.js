@@ -90,7 +90,7 @@ describe("handleError", function() {
 
     it("should treat zero as a legal value", function() {
       let actualOutput = handleError("0", "c", command);
-      assert.deepEqual(actualOutput, "");
+      assert.deepEqual(actualOutput, " ");
     });
   });
 });

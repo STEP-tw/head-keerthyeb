@@ -1,11 +1,4 @@
 const {
-  getFirstNLines,
-  getLastNLines,
-  getLastNCharacters,
-  getFirstNCharacters
-} = require("./util/string.js");
-
-const {
   displayFileNotFoundError,
   handleError,
   isFileExist,
@@ -64,11 +57,12 @@ const extractFileContent = function(
   count = 10,
   option = "n"
 ) {
-  let commands = {
-    head: { n: getFirstNLines, c: getFirstNCharacters },
-    tail: { n: getLastNLines, c: getLastNCharacters }
-  };
-  return commands[command][option](fileContent, count);
+  const delimiter = { c: "", n: "\n" };
+  const rangeBound = { head: [0, count], tail: [-count] };
+  return fileContent
+    .split(delimiter[option])
+    .slice(rangeBound[command][0], rangeBound[command][1])
+    .join(delimiter[option]);
 };
 
 const formatText = function(fileName) {

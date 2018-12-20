@@ -12,6 +12,9 @@ const handleError = function(count, option, command) {
   if (!isValidCount[command](count)) {
     return diplayIllegalCountError(command, count, option);
   }
+  if (count == 0) {
+    return " ";
+  }
 
   return "";
 };
