@@ -23,7 +23,7 @@ const createParameterObject = function(option, numberOfLines, fileNames) {
 };
 
 const classifyInputs = function(args) {
-  if (args[0].includes("-")) {
+  if (args[0].startsWith("-")) {
     return getParameters(args);
   }
   return createParameterObject("n", 10, args);
