@@ -7,15 +7,7 @@ const {
 
 const { classifyInputs } = require("./handleInput.js");
 
-const head = function(commandArguments, fs) {
-  return runCommand(fs, commandArguments, "head");
-};
-
-const tail = function(commandArguments, fs) {
-  return runCommand(fs, commandArguments, "tail");
-};
-
-const runCommand = function(fs, commandArguments, command) {
+const runCommand = function(command, commandArguments, fs) {
   let { option, numberOfLines, fileNames } = classifyInputs(commandArguments);
   let errorMessage = handleError(numberOfLines, option, command);
   if (errorMessage) {
@@ -38,6 +30,9 @@ const runCommand = function(fs, commandArguments, command) {
   });
   return getFormattedContent(fileDetails, command).join("\n");
 };
+
+const head = runCommand.bind(null, "head");
+const tail = runCommand.bind(null, "tail");
 
 const getFormattedContent = function(fileDetails, type) {
   return fileDetails.map(function(fileDetail) {
