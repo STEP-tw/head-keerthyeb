@@ -4,7 +4,6 @@ const {
   tail,
   getFormattedContent,
   head,
-  insertHeader,
   formatText
 } = require("../src/library.js");
 
@@ -41,15 +40,13 @@ describe("extractFileContent", function() {
     });
   });
 
-  describe("extractFileContent ForTail", function() {
-    describe("for default option -n and default numberOfLines 10", function() {
-      it("should return the first 10 lines of the given text", function() {
-        let command = "head";
-        let numbers = "1\n2";
-        let empty = "";
-        assert.deepEqual(extractFileContent(command, empty), "");
-        assert.deepEqual(extractFileContent(command, numbers), "1\n2");
-      });
+  describe("for default option -n and default numberOfLines 10", function() {
+    it("should return the first 10 lines of the given text", function() {
+      let command = "head";
+      let numbers = "1\n2";
+      let empty = "";
+      assert.deepEqual(extractFileContent(command, empty), "");
+      assert.deepEqual(extractFileContent(command, numbers), "1\n2");
     });
   });
 });
