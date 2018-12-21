@@ -8,23 +8,15 @@ const {
 const { classifyInputs } = require("./handleInput.js");
 
 const head = function(commandArguments, fs) {
-  return runCommand(fs, commandArguments, "head");
-};
-
-const tail = function(commandArguments, fs) {
-  return runCommand(fs, commandArguments, "tail");
-};
-
-const runCommand = function(fs, commandArguments, command) {
   let { option, numberOfLines, fileNames } = classifyInputs(commandArguments);
-  let errorMessage = handleError(numberOfLines, option, command);
+  let errorMessage = handleError(numberOfLines, option, "head");
   if (errorMessage) {
     return errorMessage;
   }
   let fileDetails = fileNames.map(fileName => getFileDetails(fs, fileName));
   fileDetails = fileDetails.map(fileDetail => {
     let content = extractFileContent(
-      command,
+      "head",
       fileDetail.content,
       numberOfLines,
       option
@@ -36,7 +28,31 @@ const runCommand = function(fs, commandArguments, command) {
     };
     return formatedDetails;
   });
-  return getFormattedContent(fileDetails, command).join("\n");
+  return getFormattedContent(fileDetails, "head").join("\n");
+};
+
+const tail = function(commandArguments, fs) {
+  let { option, numberOfLines, fileNames } = classifyInputs(commandArguments);
+  let errorMessage = handleError(numberOfLines, option, "tail");
+  if (errorMessage) {
+    return errorMessage;
+  }
+  let fileDetails = fileNames.map(fileName => getFileDetails(fs, fileName));
+  fileDetails = fileDetails.map(fileDetail => {
+    let content = extractFileContent(
+      "tail",
+      fileDetail.content,
+      numberOfLines,
+      option
+    );
+    let formatedDetails = {
+      fileName: fileDetail.fileName,
+      content,
+      isExist: fileDetail.isExist
+    };
+    return formatedDetails;
+  });
+  return getFormattedContent(fileDetails, "tail").join("\n");
 };
 
 const getFormattedContent = function(fileDetails, type) {
